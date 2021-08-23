@@ -1,0 +1,38 @@
+.wrapper-c {
+    display: flex;
+    align-items: center;
+    flex-basis: 0 !important;
+    flex-grow: 0 !important;
+}
+
+.navig {
+    background-color: #fff !important;
+    border-bottom: 1px solid #000;
+    /* background-color: #00aeff !important; */
+}
+
+.navig-item {
+    color: #000;
+    font-size: 1.25rem;
+    margin-right: 15px;
+    font-family: nunito, sans-serif;
+    text-decoration: none;
+    display: inline;
+    width: 100%;
+}
+
+.home-link {
+    color: #000 !important ;
+}
+.home-link:hover {
+    color: #000 !important ;
+}
+
+@media (max-width: 768px) {
+    .wrapper-c {
+        display: flex;
+        align-items: center;
+        flex-basis: 100% !important;
+        flex-grow: 1 !important;
+    }
+}

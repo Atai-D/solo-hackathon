@@ -14,6 +14,15 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { BLOG_LIMIT } from "../../helpers/consts";
 import { useBlog } from "../../contexts/BlogContext";
+import BookIcon from "@material-ui/icons/Book";
+
+import "./Navbar.css";
+import {
+    Container,
+    Nav,
+    Navbar as NavbarB,
+    NavDropdown,
+} from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
     navbar: {
@@ -59,8 +68,10 @@ const useStyles = makeStyles((theme) => ({
         color: "#bfe0c2",
         marginRight: "5px",
         fontFamily: "nunito",
+        border: "1px solid #fff",
         "&:hover": {
-            backgroundColor: "#d8f0df",
+            // backgroundColor: "#00aeff",
+            border: "1px solid #00aeff",
             color: "#4a825b",
         },
     },
@@ -71,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        backgroundColor: "#bfe0c2",
+        // backgroundColor: "#bfe0c2",
         textDecoration: "none",
     },
     navLogoutBtn: {
@@ -236,7 +247,7 @@ export default function Navbar() {
 
     return (
         <div className={classes.navbar}>
-            <AppBar style={{ backgroundColor: "#8ab584", position: "static" }}>
+            {/* <AppBar style={{ backgroundColor: "#00aeff", position: "static" }}>
                 <Toolbar>
                     <Typography className={classes.title} variant="h6" noWrap>
                         <NavLink
@@ -259,30 +270,17 @@ export default function Navbar() {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <>
-                            <NavLink
-                                style={{
-                                    color: "#fff",
-                                    fontSize: "1.25rem",
-                                    marginRight: "15px",
-                                    paddingTop: "4px",
-                                }}
-                                to="/cart"
-                            >
-                                Cart
-                            </NavLink>
-                            {/* <NavLink
-                                style={{
-                                    color: "#fff",
-                                    fontSize: "1.25rem",
-                                    marginRight: "15px",
-                                    paddingTop: "4px",
-                                }}
-                                to="/mypromotions"
-                            >
-                                My Promotions
-                            </NavLink> */}
-                        </>
+                        <NavLink
+                            style={{
+                                color: "#fff",
+                                fontSize: "1.25rem",
+                                marginRight: "15px",
+                                paddingTop: "4px",
+                            }}
+                            to="/cart"
+                        >
+                            Cart
+                        </NavLink>
                         <NavLink
                             style={{
                                 color: "#fff",
@@ -298,21 +296,6 @@ export default function Navbar() {
                         >
                             All blogs
                         </NavLink>
-                        {/* <NavLink
-                            style={{
-                                color: "#fff",
-                                fontSize: "1.25rem",
-                                marginRight: "15px",
-                                fontFamily: "nunito",
-                                display: "flex",
-                                alignItems: "center",
-                                flexDirection: "row",
-                                textDecoration: "none",
-                            }}
-                            to="/myblog"
-                        >
-                            My Blogs
-                        </NavLink> */}
 
                         <NavLink
                             style={{
@@ -363,7 +346,6 @@ export default function Navbar() {
                         ) : (
                             ""
                         )}
-                        {/* <Typography variant="p">{logged.email}</Typography> */}
                         <div>
                             {!email ? (
                                 <>
@@ -406,7 +388,97 @@ export default function Navbar() {
                     </div>
                 </Toolbar>
             </AppBar>
-            {renderMobileMenu}
+            {renderMobileMenu} */}
+            <NavbarB bg="light" expand="lg" className="navig">
+                <Container>
+                    <NavbarB.Brand>
+                        <NavLink to="/home" className="home-link">
+                            HACKASHOP
+                        </NavLink>
+                    </NavbarB.Brand>
+                    <NavbarB.Toggle aria-controls="basic-navbar-nav" />
+                    <NavbarB.Collapse
+                        id="basic-navbar-nav"
+                        className="wrapper-c"
+                    >
+                        <Nav className="me-auto">
+                            {email ? (
+                                <NavLink className="navig-item" to="/cart">
+                                    Cart
+                                </NavLink>
+                            ) : (
+                                ""
+                            )}
+                            <NavLink
+                                className="navig-item"
+                                to={`/bloglist?_limit=${BLOG_LIMIT}&_sort=priority&_order=desc`}
+                            >
+                                AllBlogs
+                            </NavLink>
+                            {email ? (
+                                <NavLink className="navig-item" to="/favorite">
+                                    Favorites
+                                </NavLink>
+                            ) : (
+                                ""
+                            )}
+                            {email === "ataydjirgalbaev@gmail.com" ? (
+                                <NavLink className="navig-item" to="/addblog">
+                                    AddBlog
+                                </NavLink>
+                            ) : (
+                                ""
+                            )}
+
+                            {email ? (
+                                <>
+                                    <Button
+                                        className={classes.navLogoutBtn}
+                                        onClick={() => {
+                                            alert("Вы вышли из аккаунта");
+                                            history.push("/");
+                                            handleLogout();
+                                            deleteCart();
+                                        }}
+                                    >
+                                        Log out
+                                    </Button>
+                                    {email}
+                                </>
+                            ) : (
+                                ""
+                            )}
+
+                            {!email ? (
+                                <>
+                                    <ButtonUI
+                                        className={classes.btn}
+                                        onClick={() => {
+                                            history.push("/login");
+                                            setHasAccount(false);
+                                        }}
+                                    >
+                                        SignUp
+                                    </ButtonUI>
+                                    <ButtonUI
+                                        color="inherit"
+                                        focusVisible={false}
+                                        className={classes.btn}
+                                        onClick={() => {
+                                            history.push("/login");
+                                            setHasAccount(true);
+                                        }}
+                                    >
+                                        Login
+                                    </ButtonUI>
+                                </>
+                            ) : (
+                                ""
+                            )}
+                        </Nav>
+                    </NavbarB.Collapse>
+                </Container>
+            </NavbarB>
         </div>
     );
 }
