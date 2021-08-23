@@ -1,0 +1,24 @@
+.main-footer {
+    color: #fff;
+    background-color: #8ab584;
+    padding-top: 3cm;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-family: Nunito;
+}
+.link {
+    color: #fff;
+}
+
+.icons {
+    list-style: none;
+    font-size: 3rem;
+    color: #fff;
+}
+.list-unstyled {
+    font-size: 20px;
+}
+h4 {
+    font-weight: bold;
+}
