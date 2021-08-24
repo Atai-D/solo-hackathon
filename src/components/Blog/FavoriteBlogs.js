@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthorizationContext";
 import fire from "../firebase/firebase";
 import FavoriteCard from "./FavoriteCard";
+import "./assets/FavoriteCard.css";
 
 const FavoriteBlogs = () => {
     const [favorites, setFavorites] = useState([]);
@@ -23,8 +24,13 @@ const FavoriteBlogs = () => {
         setFavorites(user.favorites);
     }, []);
     return (
-        <div>
-            <h1>favorite</h1>
+        <div class="fav-container">
+            {/* <div class="slideshow-buttons">
+                    <div class="one"></div>
+                    <div class="two"></div>
+                    <div class="three"></div>
+                    <div class="four"></div>
+                </div> */}
             {favorites?.map((id) => (
                 <FavoriteCard key={id} blogsId={id} />
             ))}

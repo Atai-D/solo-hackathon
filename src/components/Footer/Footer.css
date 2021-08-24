@@ -1,20 +1,21 @@
 .main-footer {
-    color: #fff;
-    background-color: #8ab584;
-    padding-top: 3cm;
+    color: #000;
+    border-top: 1px solid #000;
+    background-color: #fff;
+    padding-top: 50px;
     position: relative;
     bottom: 0;
     width: 100%;
-    font-family: Nunito;
 }
+
 .link {
-    color: #fff;
+    color: #00aeff;
 }
 
 .icons {
     list-style: none;
     font-size: 3rem;
-    color: #fff;
+    color: #000;
 }
 .list-unstyled {
     font-size: 20px;

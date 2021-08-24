@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     },
     blogListCards: {
         display: "flex",
-        justifyContent: "space-evenly",
+        // justifyContent: "space-evenly",
         flexWrap: "wrap",
     },
     sideBar: {
@@ -227,15 +227,15 @@ const BlogList = () => {
 
     const handleChangeSort = (e) => {
         console.log(e.target.value);
-        let sortedBlogs = blogs.sort(
-            (a, b) => b[e.target.value]?.length - a[e.target.value]?.length
-            // a[e.target.value].length
-            //     ? a[e.target.value].length
-            //     : 0 - b[e.target.value].length
-            //     ? b[e.target.value].length
-            //     : 0
-        );
-        console.log(sortedBlogs);
+        let sortedBlogs = [];
+        if (e.target.value === "price") {
+            sortedBlogs = blogs.sort((a, b) => b.price - a.price);
+        } else {
+            sortedBlogs = blogs.sort(
+                (a, b) => b[e.target.value]?.length - a[e.target.value]?.length
+            );
+            console.log(sortedBlogs);
+        }
         dispatch({
             type: BLOG_ACTIONS.GET_BLOGS_DATA,
             payload: sortedBlogs,
@@ -355,6 +355,18 @@ const BlogList = () => {
                                     }
                                     label={"sort by comments"}
                                 />
+                                <FormControlLabel
+                                    value={"price"}
+                                    control={
+                                        <GreenRadio
+                                            checked={selectedValue2 === "price"}
+                                            onChange={handleChangeSortValue}
+                                            value={"price"}
+                                            name="radio-button-demo"
+                                        />
+                                    }
+                                    label={"sort by price"}
+                                />
                             </RadioGroup>
                         </FormControl>
                         <div className={classes.search}>
@@ -422,23 +434,6 @@ const BlogList = () => {
                         ) : (
                             ""
                         )}
-                        {/* <div
-                            className={classes.blogListPagination}
-                            style={{ marginTop: "20px" }}
-                        >
-                            <Pagination
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                                count={pages}
-                                color="primary"
-                                page={+page}
-                                variant="outlined"
-                                size="large"
-                                onChange={handlePage}
-                            />
-                        </div> */}
                     </>
                 ) : (
                     <h1>Похоже здесь нет блогов</h1>
