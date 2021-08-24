@@ -65,10 +65,11 @@ const useStyles = makeStyles((theme) => ({
     },
     btn: {
         backgroundColor: "#fff",
-        color: "#bfe0c2",
+        color: "#00aeff",
         marginRight: "5px",
         fontFamily: "nunito",
         border: "1px solid #fff",
+        marginTop: "-3px",
         "&:hover": {
             // backgroundColor: "#00aeff",
             border: "1px solid #00aeff",

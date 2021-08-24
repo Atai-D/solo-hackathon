@@ -64,8 +64,18 @@ const Cart = () => {
                             <TableRow>
                                 <TableCell>Image</TableCell>
                                 <TableCell align="right">Title</TableCell>
-                                <TableCell align="right">Price</TableCell>
-                                <TableCell align="right">Count</TableCell>
+                                <TableCell
+                                    align="right"
+                                    style={{ paddingLeft: "130px" }}
+                                >
+                                    Price
+                                </TableCell>
+                                <TableCell
+                                    align="center"
+                                    style={{ paddingLeft: "155px" }}
+                                >
+                                    Count
+                                </TableCell>
                                 <TableCell align="right">SubPrice</TableCell>
                             </TableRow>
                         </TableHead>
@@ -81,8 +91,11 @@ const Cart = () => {
                                     <Typography variant="h5">Total:</Typography>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Typography variant="h5">
-                                        {cart.totalPrice}
+                                    <Typography
+                                        variant="h5"
+                                        style={{ color: "#00aeff" }}
+                                    >
+                                        &#x24;{cart.totalPrice}
                                         <Button onClick={handlePayBtn}>
                                             <PaymentIcon
                                                 style={{
@@ -90,6 +103,11 @@ const Cart = () => {
                                                     height: "50px",
                                                 }}
                                             />
+                                            <h5
+                                                style={{ marginBottom: "-2px" }}
+                                            >
+                                                Pay
+                                            </h5>
                                         </Button>
                                     </Typography>
                                 </TableCell>
@@ -98,9 +116,7 @@ const Cart = () => {
                     </Table>
                 </TableContainer>
             ) : (
-                <h2>
-                    Добавьте что-нибудь в корзину, перед тем как смотерть в неё
-                </h2>
+                <h2>Add something to cart</h2>
             )}
             {/* {cart?.blogs?.length > 0 ? (
                 <TableContainer component={Paper}>

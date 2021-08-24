@@ -1,3 +1,4 @@
+import { makeStyles } from "@material-ui/core";
 import {
     Container,
     Grid,
@@ -10,7 +11,15 @@ import React from "react";
 import { useBlog } from "../../contexts/BlogContext";
 import { CATEGORIES } from "../../helpers/consts";
 
+const useStyles = makeStyles({
+    inp: {
+        color: "#00aeff",
+        marginBottom: "10px",
+    },
+});
+
 const AddBlog = () => {
+    const classes = useStyles();
     const {
         blogTitle,
         setBlogTitle,
@@ -43,7 +52,7 @@ const AddBlog = () => {
                         variant="h5"
                         style={{
                             marginBottom: "10px",
-                            color: "#8ab584",
+                            color: "#00aeff",
                             fontFamily: "nunito",
                         }}
                     >
@@ -59,11 +68,7 @@ const AddBlog = () => {
                             type="text"
                             value={blogTitle}
                             onChange={(e) => setBlogTitle(e.target.value)}
-                            style={{
-                                color: "#8ab584",
-                                fontFamily: "nunito",
-                                marginBottom: "10px",
-                            }}
+                            className={classes.inp}
                         />
                         <br />
                         <TextField
@@ -75,11 +80,7 @@ const AddBlog = () => {
                             type="text"
                             value={blogImage}
                             onChange={(e) => setBlogImage(e.target.value)}
-                            style={{
-                                color: "#8ab584",
-                                fontFamily: "nunito",
-                                marginBottom: "10px",
-                            }}
+                            className={classes.inp}
                         />
                         <br />
                         <TextField
@@ -91,11 +92,7 @@ const AddBlog = () => {
                             type="number"
                             value={blogPrice}
                             onChange={(e) => setBlogPrice(e.target.value)}
-                            style={{
-                                color: "#8ab584",
-                                fontFamily: "nunito",
-                                marginBottom: "10px",
-                            }}
+                            className={classes.inp}
                         />
 
                         <TextField
@@ -108,11 +105,7 @@ const AddBlog = () => {
                             variant="outlined"
                             value={blogText}
                             onChange={(e) => setBlogText(e.target.value)}
-                            style={{
-                                color: "#8ab584",
-                                fontFamily: "nunito",
-                                marginBottom: "10px",
-                            }}
+                            className={classes.inp}
                         />
                         <br />
                         <TextField
@@ -125,7 +118,8 @@ const AddBlog = () => {
                             value={blogCategory}
                             onChange={(e) => setBlogCategory(e.target.value)}
                             variant="outlined"
-                            style={{ color: "#8ab584", fontFamily: "nunito" }}
+                            className={classes.inp}
+                            // style={{ color: "#00aeff", fontFamily: "nunito" }}
                         >
                             {CATEGORIES.map((option) => (
                                 <MenuItem
@@ -140,11 +134,7 @@ const AddBlog = () => {
                     <ButtonUI
                         variant="contained"
                         type="submit"
-                        style={{
-                            color: "#8ab584",
-                            fontFamily: "nunito",
-                            marginTop: "10px",
-                        }}
+                        className={classes.inp}
                     >
                         Add
                     </ButtonUI>

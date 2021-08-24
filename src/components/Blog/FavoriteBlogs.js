@@ -31,9 +31,12 @@ const FavoriteBlogs = () => {
                     <div class="three"></div>
                     <div class="four"></div>
                 </div> */}
-            {favorites?.map((id) => (
-                <FavoriteCard key={id} blogsId={id} />
-            ))}
+
+            {favorites?.length > 0 ? (
+                favorites?.map((id) => <FavoriteCard key={id} blogsId={id} />)
+            ) : (
+                <h1>Add some products to favorites</h1>
+            )}
         </div>
     );
 };

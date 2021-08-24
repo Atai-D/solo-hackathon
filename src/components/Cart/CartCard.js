@@ -27,15 +27,15 @@ const useStyles = makeStyles({
 
 const CartCard = ({ blog }) => {
     const classes = useStyles();
-    const [days, setDays] = useState(+blog.count);
+    const [count, setCount] = useState(+blog.count);
     const [price, setPrice] = useState(blog.promPrice);
     const { promotionBlogs } = useBlog();
     const { cart, getCart, changeBlogCount, changeBlogPrice, addBlogToCart } =
         useBlog();
 
     const handleCountChange = (e) => {
-        const res = eval(`${days}${e.target.innerText}`);
-        setDays(res);
+        const res = eval(`${count}${e.target.innerText}`);
+        setCount(res);
         changeBlogCount(res, blog.item.id);
     };
 
@@ -55,39 +55,49 @@ const CartCard = ({ blog }) => {
                         alt={blog.item.title}
                     />
                 </TableCell>
-                <TableCell align="right">{blog.item.title}</TableCell>
-                <TableCell align="right">{blog.item.price}</TableCell>
+                <TableCell
+                    align="right"
+                    style={{ color: "#00aeff", fontSize: "18px" }}
+                >
+                    {blog.item.title}
+                </TableCell>
+                <TableCell align="right" style={{ color: "red" }}>
+                    {blog.item.price}
+                </TableCell>
                 <TableCell align="right">
                     <Button
                         onClick={handleCountChange}
-                        disabled={days - 5 < 1 ? "disabled" : ""}
+                        disabled={count - 5 < 1 ? "disabled" : ""}
                     >
                         -5
                     </Button>
                     <Button
                         onClick={handleCountChange}
-                        disabled={days - 1 < 1 ? "disabled" : ""}
+                        disabled={count - 1 < 1 ? "disabled" : ""}
                     >
                         -1
                     </Button>
-                    {days} days
+                    {count}
                     <Button
                         onClick={handleCountChange}
-                        disabled={days + 1 > 30 ? "disabled" : ""}
+                        disabled={count + 1 > 30 ? "disabled" : ""}
                     >
                         +1
                     </Button>
                     <Button
                         onClick={handleCountChange}
-                        disabled={days + 5 > 30 ? "disabled" : ""}
+                        disabled={count + 5 > 30 ? "disabled" : ""}
                     >
                         +5
                     </Button>
-                    <Button onClick={() => addBlogToCart(blog.item)}>
+                    <Button
+                        onClick={() => addBlogToCart(blog.item)}
+                        style={{ marginLeft: "10px", color: "#d90909" }}
+                    >
                         Remove
                     </Button>
                 </TableCell>
-                <TableCell align="right">{blog.subPrice}</TableCell>
+                <TableCell align="right">&#x24;{blog.subPrice}</TableCell>
             </TableRow>
             {/* <TableRow key={blog.id}>
             <TableCell>
