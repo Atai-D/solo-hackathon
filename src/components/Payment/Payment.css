@@ -2,7 +2,7 @@
     font-family: sans-serif;
     text-align: left;
 }
-form {
+.payment-form {
     margin: 30px auto 0;
     max-width: 400px;
 }

@@ -6,11 +6,13 @@ import BlogDetails from "../components/Blog/BlogDetails";
 import BlogList from "../components/Blog/BlogList";
 import FavoriteBlogs from "../components/Blog/FavoriteBlogs";
 import Cart from "../components/Cart/Cart";
+import Chat from "../components/Chat/Chat";
 import Home from "../components/Home/Home";
 import Navbar from "../components/Navbar/Navbar";
 import Payment from "../components/Payment/Payment";
 import BlogContextProvider from "../contexts/BlogContext";
 import AdminRoute from "./AdminRoute";
+import LoginRoute from "./LoginRoute";
 import ProtectedRoute from "./ProtectedRoute";
 
 const Routes = () => {
@@ -23,10 +25,15 @@ const Routes = () => {
                     <Route exact path="/bloglist" component={BlogList} />
                     <AdminRoute exact path="/addblog" component={AddBlog} />
                     <Route exact path="/blog/:id" component={BlogDetails} />
-                    <Route exact path="/payment" component={Payment} />
-                    <ProtectedRoute exact path="/login" component={Login} />
-                    <Route exact path="/cart" component={Cart} />
-                    <Route exact path="/favorite" component={FavoriteBlogs} />
+                    <ProtectedRoute exact path="/payment" component={Payment} />
+                    <LoginRoute exact path="/login" component={Login} />
+                    <ProtectedRoute exact path="/cart" component={Cart} />
+                    <ProtectedRoute
+                        exact
+                        path="/favorite"
+                        component={FavoriteBlogs}
+                    />
+                    <ProtectedRoute exact path="/chat" component={Chat} />
                 </Switch>
             </BlogContextProvider>
         </BrowserRouter>

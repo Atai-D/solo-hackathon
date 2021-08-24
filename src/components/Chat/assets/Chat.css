@@ -1,0 +1,33 @@
+.comment-thread {
+    /* width: 700px; */
+    max-width: 100%;
+    /* margin: auto; */
+    margin: 10px;
+    padding: 5px 30px;
+    background-color: #fff;
+    /* border: 1px solid transparent; Removes margin collapse */
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+.m-0 {
+    margin: 0;
+}
+
+.comment {
+    position: relative;
+    margin: 20px auto;
+}
+.comment-heading {
+    display: flex;
+    align-items: center;
+    /* height: 50px; */
+    font-size: 18px;
+}
+.comment-info {
+    color: rgba(0, 0, 0, 0.5);
+}
+.comment-author {
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: bold;
+    text-decoration: none;
+}
