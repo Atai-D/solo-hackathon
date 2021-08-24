@@ -56,6 +56,7 @@ const AuthContextProvider = ({ children }) => {
                     email: email,
                     password: password,
                     lastOrders: [],
+                    lastViews: [],
                     favorites: [],
                     id: uuidv4(),
                 };

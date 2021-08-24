@@ -62,7 +62,8 @@ export default function BlogCard({ blog, showAuthor }) {
         setEdittingId,
         addBlogToCart,
         addLike,
-        addBlogToFavourites,
+        addBlogToFavorites,
+        addProductToCart,
     } = useBlog();
 
     const handleDeleteBtn = (id) => {
@@ -77,7 +78,8 @@ export default function BlogCard({ blog, showAuthor }) {
         setEdittingId(id);
     };
 
-    const handlePromotionBtn = (blog, authorId) => {
+    const handleCartBtn = (blog, authorId) => {
+        // addProductToCart(blog);
         addBlogToCart(blog);
     };
 
@@ -87,7 +89,7 @@ export default function BlogCard({ blog, showAuthor }) {
     };
 
     const handleFavBtn = async (blog) => {
-        await addBlogToFavourites(blog);
+        await addBlogToFavorites(blog);
         checkFav();
     };
 
@@ -209,19 +211,6 @@ export default function BlogCard({ blog, showAuthor }) {
                                             >
                                                 Edit
                                             </EditOutlinedIcon>
-                                            <Button
-                                                className={classes.blogBtn}
-                                                size="small"
-                                                color="secondary"
-                                                onClick={() =>
-                                                    handlePromotionBtn(
-                                                        blog,
-                                                        blog.authorsId
-                                                    )
-                                                }
-                                            >
-                                                Promote
-                                            </Button>
                                         </div>
                                     ) : (
                                         <>
@@ -229,31 +218,6 @@ export default function BlogCard({ blog, showAuthor }) {
                                                 {/* <i className="ion ion-ios-clock-outline"></i> */}
                                                 {/* <span className="value">20</span> */}
                                                 {/* <span className="title">Show More</span> */}
-                                                {!activeFav ? (
-                                                    <BookmarkBorderIcon
-                                                        color="#fff"
-                                                        style={{
-                                                            cursor: "pointer",
-                                                        }}
-                                                        onClick={() =>
-                                                            handleFavBtn(blog)
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <BookmarkIcon
-                                                        color="#fff"
-                                                        style={{
-                                                            cursor: "pointer",
-                                                        }}
-                                                        onClick={() =>
-                                                            handleFavBtn(blog)
-                                                        }
-                                                    />
-                                                )}
-                                            </li>
-                                            <li className="recipe-details-item ingredients">
-                                                {/* <i className="ion ion-ios-book-outline"></i> */}
-                                                {/* <span className="value">5</span> */}
                                                 {!activeLike ? (
                                                     <FavoriteBorderIcon
                                                         // className="title"
@@ -284,11 +248,40 @@ export default function BlogCard({ blog, showAuthor }) {
                                                     />
                                                 )}
                                             </li>
+                                            <li className="recipe-details-item ingredients">
+                                                {/* <i className="ion ion-ios-book-outline"></i> */}
+                                                {/* <span className="value">5</span> */}
+                                                {!activeFav ? (
+                                                    <BookmarkBorderIcon
+                                                        color="#fff"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleFavBtn(blog)
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <BookmarkIcon
+                                                        color="#fff"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleFavBtn(blog)
+                                                        }
+                                                    />
+                                                )}
+                                            </li>
                                             <li className="recipe-details-item servings">
                                                 {/* <i className="ion ion-ios-person-outline"></i> */}
                                                 {/* <span className="value">4-6</span> */}
                                                 {/* <span className="title">Serving</span> */}
-                                                <ShoppingCartIcon />
+                                                <ShoppingCartIcon
+                                                    onClick={() =>
+                                                        handleCartBtn(blog)
+                                                    }
+                                                />
                                             </li>
                                         </>
                                     )}

@@ -67,7 +67,7 @@ export default function BlogDetails() {
         addLike,
         history,
         addComment,
-        addBlogToFavourites,
+        addBlogToFavorites,
     } = useBlog();
 
     useEffect(() => {
@@ -75,6 +75,7 @@ export default function BlogDetails() {
         getBlogDetails(id);
         checkLikes();
         checkFav();
+        addBlogToLastViews();
     }, []);
 
     const handleDeleteBtn = (id) => {
@@ -96,7 +97,7 @@ export default function BlogDetails() {
     };
 
     const handleFavBtn = async (blog) => {
-        await addBlogToFavourites(blog);
+        await addBlogToFavorites(blog);
         await checkFav();
         getBlogDetails(id);
     };
@@ -144,6 +145,24 @@ export default function BlogDetails() {
             setActiveFav(true);
         }
     };
+
+    async function addBlogToLastViews() {
+        const ref = fire.firestore().collection("users");
+        const refGet = await ref.get();
+        let user = {};
+        refGet.docs.forEach((doc) => {
+            if (doc.data().email === email) {
+                user = doc.data();
+            }
+        });
+        console.log(user);
+        const idToFind = user?.lastViews?.filter((blogIds) => blogIds === id);
+        if (idToFind.length === 0) {
+            user?.lastViews?.push(id);
+            let userWithLast = { ...user };
+            ref.doc(user.id).update(userWithLast);
+        }
+    }
 
     const handleOpenComment = () => {
         setOpenInp(true);
