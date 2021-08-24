@@ -10,6 +10,8 @@ import Chat from "../components/Chat/Chat";
 import Home from "../components/Home/Home";
 import Navbar from "../components/Navbar/Navbar";
 import Payment from "../components/Payment/Payment";
+import LastOrdersList from "../components/UsersLast/LastOrdersList";
+import LastViewsList from "../components/UsersLast/LastViewsList";
 import BlogContextProvider from "../contexts/BlogContext";
 import AdminRoute from "./AdminRoute";
 import LoginRoute from "./LoginRoute";
@@ -34,6 +36,16 @@ const Routes = () => {
                         component={FavoriteBlogs}
                     />
                     <ProtectedRoute exact path="/chat" component={Chat} />
+                    <ProtectedRoute
+                        exact
+                        path="/myviews"
+                        component={LastViewsList}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/myorders"
+                        component={LastOrdersList}
+                    />
                 </Switch>
             </BlogContextProvider>
         </BrowserRouter>

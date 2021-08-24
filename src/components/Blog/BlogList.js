@@ -419,11 +419,7 @@ const BlogList = () => {
                                     }
                                 })
                                 .map((blog, index) => (
-                                    <BlogCard
-                                        blog={blog}
-                                        showAuthor={true}
-                                        key={index}
-                                    />
+                                    <BlogCard blog={blog} key={index} />
                                 ))}
                             <div>
                                 <EditBlog />

@@ -405,8 +405,11 @@ export default function Navbar() {
                         <Nav className="me-auto">
                             {email ? (
                                 <>
-                                    <NavLink className="navig-item" to="/cart">
-                                        MyOrders
+                                    <NavLink
+                                        className="navig-item"
+                                        to="/myviews"
+                                    >
+                                        MyViews
                                     </NavLink>
                                     <NavLink className="navig-item" to="/cart">
                                         Cart

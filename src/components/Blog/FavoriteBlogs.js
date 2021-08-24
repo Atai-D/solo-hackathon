@@ -24,7 +24,7 @@ const FavoriteBlogs = () => {
         setFavorites(user.favorites);
     }, []);
     return (
-        <div class="fav-container">
+        <div className="fav-container">
             {/* <div class="slideshow-buttons">
                     <div class="one"></div>
                     <div class="two"></div>
