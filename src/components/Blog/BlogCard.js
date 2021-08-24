@@ -47,7 +47,7 @@ const useStyles = makeStyles({
     blogCardInf: {},
 });
 
-export default function BlogCard({ blog, showAuthor }) {
+export default function BlogCard({ blog }) {
     const classes = useStyles();
     const {
         user: { email },
