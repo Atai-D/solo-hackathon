@@ -8,7 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { CssBaseline, Grid } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { JSON_API_BLOGS, JSON_API_USERS } from "../../helpers/consts";
 import axios from "axios";
 import { useBlog } from "../../contexts/BlogContext";
@@ -22,6 +22,10 @@ import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import fire from "../firebase/firebase";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
+
+import "./assets/BlogCard.css";
 
 const useStyles = makeStyles({
     cardRoot: {
@@ -110,7 +114,7 @@ export default function BlogCard({ blog, showAuthor }) {
         const emailToFind = tempBlog?.usersLikes?.filter(
             (usersEmail) => usersEmail === email
         );
-        if (emailToFind.length === 0) {
+        if (emailToFind?.length === 0) {
             setActiveLike(false);
         } else {
             setActiveLike(true);
@@ -137,8 +141,167 @@ export default function BlogCard({ blog, showAuthor }) {
     };
 
     return (
-        <div>
-            <Grid container spacing={3}>
+        <>
+            <div className="ft-recipe">
+                <NavLink to={`/blog/${blog.id}`} className="ft-recipe__thumb">
+                    {/* <span id="close-modal">
+                        <i className="ion ion-md-close"></i>
+                    </span> */}
+                    <img src={blog.image} alt={blog.image} />
+                </NavLink>
+                <div className="ft-recipe__content">
+                    <header className="content__header">
+                        <div className="row-wrapper">
+                            <NavLink
+                                to={`/blog/${blog.id}`}
+                                className="recipe-title"
+                            >
+                                {blog.title}
+                            </NavLink>
+                            {/* <div className="user-rating"></div> */}
+                        </div>
+                        <div>
+                            Likes:{" "}
+                            {blog?.usersLikes?.length
+                                ? blog?.usersLikes?.length
+                                : 0}
+                        </div>
+                        <div>
+                            Comments:{" "}
+                            {blog?.comments?.length
+                                ? blog?.comments?.length
+                                : 0}
+                        </div>
+                        <div>Brand: {blog.category}</div>
+                        <h5>
+                            Price:{" "}
+                            <span style={{ color: "red" }}>
+                                {blog.price} &#8381;
+                            </span>
+                        </h5>
+                        <ul className="recipe-details">
+                            {email ? (
+                                <>
+                                    {email == "ataydjirgalbaev@gmail.com" ? (
+                                        <div>
+                                            <DeleteOutlineIcon
+                                                className={classes.blogBtn}
+                                                size="#fff"
+                                                color="secondary"
+                                                onClick={() =>
+                                                    handleDeleteBtn(blog.id)
+                                                }
+                                                style={{
+                                                    display: "flex",
+                                                    cursor: "pointer",
+                                                }}
+                                            >
+                                                Delete
+                                            </DeleteOutlineIcon>
+                                            <EditOutlinedIcon
+                                                className={classes.blogBtn}
+                                                style={{ cursor: "pointer" }}
+                                                size="small"
+                                                color="secondary"
+                                                onClick={() =>
+                                                    handleEditBtn(blog.id)
+                                                }
+                                            >
+                                                Edit
+                                            </EditOutlinedIcon>
+                                            <Button
+                                                className={classes.blogBtn}
+                                                size="small"
+                                                color="secondary"
+                                                onClick={() =>
+                                                    handlePromotionBtn(
+                                                        blog,
+                                                        blog.authorsId
+                                                    )
+                                                }
+                                            >
+                                                Promote
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <li className="recipe-details-item time">
+                                                {/* <i className="ion ion-ios-clock-outline"></i> */}
+                                                {/* <span className="value">20</span> */}
+                                                {/* <span className="title">Show More</span> */}
+                                                {!activeFav ? (
+                                                    <BookmarkBorderIcon
+                                                        color="#fff"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleFavBtn(blog)
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <BookmarkIcon
+                                                        color="#fff"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleFavBtn(blog)
+                                                        }
+                                                    />
+                                                )}
+                                            </li>
+                                            <li className="recipe-details-item ingredients">
+                                                {/* <i className="ion ion-ios-book-outline"></i> */}
+                                                {/* <span className="value">5</span> */}
+                                                {!activeLike ? (
+                                                    <FavoriteBorderIcon
+                                                        // className="title"
+                                                        color="#fff"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleLikeBtn(
+                                                                blog,
+                                                                blog.id
+                                                            )
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <FavoriteIcon
+                                                        // className="title"
+                                                        color="#fff"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleLikeBtn(
+                                                                blog,
+                                                                blog.id
+                                                            )
+                                                        }
+                                                    />
+                                                )}
+                                            </li>
+                                            <li className="recipe-details-item servings">
+                                                {/* <i className="ion ion-ios-person-outline"></i> */}
+                                                {/* <span className="value">4-6</span> */}
+                                                {/* <span className="title">Serving</span> */}
+                                                <ShoppingCartIcon />
+                                            </li>
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                ""
+                            )}
+                        </ul>
+                    </header>
+                </div>
+            </div>
+
+            {/* <Grid container spacing={3}>
                 <Grid item sx={3}>
                     <Card className={classes.cardRoot} elevation={5}>
                         <CardActionArea
@@ -329,7 +492,7 @@ export default function BlogCard({ blog, showAuthor }) {
                         </CardActions>
                     </Card>
                 </Grid>
-            </Grid>
-        </div>
+            </Grid> */}
+        </>
     );
 }

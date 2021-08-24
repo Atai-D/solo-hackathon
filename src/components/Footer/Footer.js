@@ -14,40 +14,48 @@ const Footer = () => {
                     <div className="col">
                         <h4>ABOUT US</h4>
                         <p className="list-unstyled">
-                            This blog puts together everyone's <br />{" "}
-                            exploration of Bishkek, <br /> capital of
-                            Kyrgyzstan.
-                            <br />
-                            Keep yourself up to date with us!{" "}
+                            This is store which sells different <br /> awesome
+                            headphones <br />
+                            The name 'HACKASHOP' cames from <br />
+                            two words: 'hackathon' and 'shop'
                         </p>
                     </div>
                     <div className="col">
                         <h4>CONTACT US</h4>
                         <ul className="list-unstyled">
-                            <li>Logvinenko 12</li>
+                            <li>
+                                <a
+                                    className="link"
+                                    target="_blank"
+                                    href="https://2gis.kg/bishkek/geo/15763234351062857?m=74.586734%2C42.871584%2F16"
+                                >
+                                    Tabishalieva 29
+                                </a>
+                            </li>
                             <li>Bishkek, Kyrgyzstan</li>
                             <li>PO Box 72000</li>
                             <li>
                                 <a
                                     className="link"
-                                    href="mailto:b-bblog@gmail.com"
+                                    target="_blank"
+                                    href="mailto:ataydjirgalbaev@gmail.com"
                                 >
                                     Send Email
                                 </a>
                             </li>
-                            <li>+996555776612</li>
+                            <li>+996-709-544-452</li>
                         </ul>
                     </div>
                     <div className="col">
-                        <h4>FOLLOW US</h4>
+                        <h4>FOLLOW ME</h4>
                         <ul className="icons">
                             <li>
                                 <a
-                                    href="https://www.instagram.com/akashkarbek/"
+                                    href="https://www.instagram.com/dzh_atai_05/"
                                     target="_blank"
                                 >
                                     <AiFillInstagram
-                                        style={{ color: "#fff" }}
+                                        style={{ color: "#000" }}
                                     />
                                 </a>
                             </li>
@@ -57,7 +65,7 @@ const Footer = () => {
                                     target="_blank"
                                 >
                                     <AiOutlineTwitter
-                                        style={{ color: "#fff" }}
+                                        style={{ color: "#000" }}
                                     />
                                 </a>
                             </li>
@@ -67,8 +75,8 @@ const Footer = () => {
                 <br />
                 <div className="row">
                     <p className="col-sm">
-                        &copy;{new Date().getFullYear()} Best Bishkek Blog | All
-                        rights reserved
+                        &copy;{new Date().getFullYear()} HACKASHOP | All rights
+                        reserved
                     </p>
                 </div>
             </div>

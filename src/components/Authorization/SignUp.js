@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthorizationContext";
+import "./SignUp.css";
 
 const Login = () => {
     const {
@@ -18,8 +19,8 @@ const Login = () => {
     } = useAuth();
     return (
         <>
-            <section>
-                <div>
+            <section className="form">
+                <form className="login-form">
                     <label>Username</label>
                     <input
                         type="text"
@@ -29,6 +30,7 @@ const Login = () => {
                         onChange={(e) => {
                             setEmail(e.target.value);
                         }}
+                        placeholder="email"
                     />
                     <p>{emailError}</p>
                     <label>Password</label>
@@ -38,18 +40,20 @@ const Login = () => {
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        placeholder="password"
                     />
                     <p>{passwordError}</p>
                     <div>
                         {hasAccount ? (
                             <>
                                 <button onClick={handleLogIn}>Sign in</button>
-                                <p>
-                                    Don't have an account ?
+                                <p className="message">
+                                    Don't have an account?{" "}
                                     <span
-                                        onClick={() =>
-                                            setHasAccount(!hasAccount)
-                                        }
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setHasAccount(!hasAccount);
+                                        }}
                                     >
                                         Sign up
                                     </span>
@@ -58,12 +62,13 @@ const Login = () => {
                         ) : (
                             <>
                                 <button onClick={handleSignup}>Sign up</button>
-                                <p>
-                                    Have an account ?
+                                <p className="message">
+                                    Have an account?{" "}
                                     <span
-                                        onClick={() =>
-                                            setHasAccount(!hasAccount)
-                                        }
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setHasAccount(!hasAccount);
+                                        }}
                                     >
                                         Sign in
                                     </span>
@@ -71,7 +76,7 @@ const Login = () => {
                             </>
                         )}
                     </div>
-                </div>
+                </form>
             </section>
         </>
     );

@@ -25,7 +25,8 @@ const AuthContextProvider = ({ children }) => {
         setPasswordError("");
     };
 
-    const handleLogIn = () => {
+    const handleLogIn = (e) => {
+        e.preventDefault();
         clearErrors();
 
         fire.auth()
@@ -44,7 +45,8 @@ const AuthContextProvider = ({ children }) => {
             });
     };
 
-    const handleSignup = () => {
+    const handleSignup = (e) => {
+        e.preventDefault();
         clearErrors();
         fire.auth()
             .createUserWithEmailAndPassword(email, password)

@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
         "&:hover": {
             // backgroundColor: "#00aeff",
             border: "1px solid #00aeff",
-            color: "#4a825b",
+            // color: "#4a825b",
         },
     },
     title: {
@@ -213,7 +213,7 @@ export default function Navbar() {
 
                 <>
                     <Button
-                        className={classes.navLogoutBtn}
+                        className={classes.btn}
                         onClick={() => {
                             deleteCart();
                             alert("Вы вышли из аккаунта");
@@ -409,10 +409,7 @@ export default function Navbar() {
                             ) : (
                                 ""
                             )}
-                            <NavLink
-                                className="navig-item"
-                                to={`/bloglist?_limit=${BLOG_LIMIT}&_sort=priority&_order=desc`}
-                            >
+                            <NavLink className="navig-item" to={`/bloglist`}>
                                 AllBlogs
                             </NavLink>
                             {email ? (
@@ -433,7 +430,7 @@ export default function Navbar() {
                             {email ? (
                                 <>
                                     <Button
-                                        className={classes.navLogoutBtn}
+                                        className={classes.btn}
                                         onClick={() => {
                                             alert("Вы вышли из аккаунта");
                                             history.push("/");
@@ -441,7 +438,7 @@ export default function Navbar() {
                                             deleteCart();
                                         }}
                                     >
-                                        Log out
+                                        LogOut
                                     </Button>
                                     {email}
                                 </>
