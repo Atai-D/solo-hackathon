@@ -686,7 +686,7 @@ const BlogContextProvider = ({ children }) => {
         // }
         // });
         ref.doc(newUser.id)
-            .set(newUser)
+            .update(newUser)
             .catch((err) => {
                 console.log(err);
             });

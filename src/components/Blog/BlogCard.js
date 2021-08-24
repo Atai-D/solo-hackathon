@@ -81,6 +81,7 @@ export default function BlogCard({ blog, showAuthor }) {
     const handleCartBtn = (blog, authorId) => {
         // addProductToCart(blog);
         addBlogToCart(blog);
+        checkCart();
     };
 
     const handleLikeBtn = async (blog, blogsId) => {
@@ -95,10 +96,12 @@ export default function BlogCard({ blog, showAuthor }) {
 
     const [activeLike, setActiveLike] = useState(false);
     const [activeFav, setActiveFav] = useState(false);
+    const [activeCart, setActiveCart] = useState(false);
 
     useEffect(() => {
         checkLikes();
         checkFav();
+        checkCart();
     }, []);
 
     async function checkLikes() {
@@ -142,6 +145,18 @@ export default function BlogCard({ blog, showAuthor }) {
         }
     };
 
+    const checkCart = () => {
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        const idToFind = cart?.blogs?.filter(
+            (cartBlog) => cartBlog.item.id === blog.id
+        );
+        if (idToFind?.length === 0) {
+            setActiveCart(false);
+        } else {
+            setActiveCart(true);
+        }
+    };
+
     return (
         <>
             <div className="ft-recipe">
@@ -178,40 +193,46 @@ export default function BlogCard({ blog, showAuthor }) {
                         <h5>
                             Price:{" "}
                             <span style={{ color: "red" }}>
-                                {blog.price} &#8381;
+                                &#x24;{blog.price}
                             </span>
                         </h5>
                         <ul className="recipe-details">
                             {email ? (
                                 <>
                                     {email == "ataydjirgalbaev@gmail.com" ? (
-                                        <div>
-                                            <DeleteOutlineIcon
-                                                className={classes.blogBtn}
-                                                size="#fff"
-                                                color="secondary"
-                                                onClick={() =>
-                                                    handleDeleteBtn(blog.id)
-                                                }
-                                                style={{
-                                                    display: "flex",
-                                                    cursor: "pointer",
-                                                }}
-                                            >
-                                                Delete
-                                            </DeleteOutlineIcon>
-                                            <EditOutlinedIcon
-                                                className={classes.blogBtn}
-                                                style={{ cursor: "pointer" }}
-                                                size="small"
-                                                color="secondary"
-                                                onClick={() =>
-                                                    handleEditBtn(blog.id)
-                                                }
-                                            >
-                                                Edit
-                                            </EditOutlinedIcon>
-                                        </div>
+                                        <>
+                                            <li className="recipe-details-item time">
+                                                <DeleteOutlineIcon
+                                                    className={classes.blogBtn}
+                                                    size="#fff"
+                                                    color="secondary"
+                                                    onClick={() =>
+                                                        handleDeleteBtn(blog.id)
+                                                    }
+                                                    style={{
+                                                        display: "flex",
+                                                        cursor: "pointer",
+                                                    }}
+                                                >
+                                                    Delete
+                                                </DeleteOutlineIcon>
+                                            </li>
+                                            <li className="recipe-details-item time">
+                                                <EditOutlinedIcon
+                                                    className={classes.blogBtn}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
+                                                    size="small"
+                                                    color="secondary"
+                                                    onClick={() =>
+                                                        handleEditBtn(blog.id)
+                                                    }
+                                                >
+                                                    Edit
+                                                </EditOutlinedIcon>
+                                            </li>
+                                        </>
                                     ) : (
                                         <>
                                             <li className="recipe-details-item time">
@@ -277,11 +298,27 @@ export default function BlogCard({ blog, showAuthor }) {
                                                 {/* <i className="ion ion-ios-person-outline"></i> */}
                                                 {/* <span className="value">4-6</span> */}
                                                 {/* <span className="title">Serving</span> */}
-                                                <ShoppingCartIcon
-                                                    onClick={() =>
-                                                        handleCartBtn(blog)
-                                                    }
-                                                />
+                                                {!activeCart ? (
+                                                    <ShoppingCartOutlinedIcon
+                                                        color="#fff"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleCartBtn(blog)
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <ShoppingCartIcon
+                                                        color="#fff"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleCartBtn(blog)
+                                                        }
+                                                    />
+                                                )}
                                             </li>
                                         </>
                                     )}

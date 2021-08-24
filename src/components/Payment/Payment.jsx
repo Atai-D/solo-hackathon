@@ -12,7 +12,7 @@ const Payment = () => {
         e.preventDefault();
         console.log(payingBlogs);
         payForBlogs(payingBlogs);
-        history.push("/mypromotions");
+        history.push("/");
     };
 
     const [number, SetNumber] = useState("");
