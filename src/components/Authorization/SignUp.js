@@ -16,6 +16,11 @@ const Login = () => {
         setHasAccount,
         emailError,
         passwordError,
+        resetPassword,
+        showReset,
+        setShowReset,
+        showPasswordField,
+        setShowPasswordField,
     } = useAuth();
     return (
         <>
@@ -33,18 +38,59 @@ const Login = () => {
                         placeholder="email"
                     />
                     <p>{emailError}</p>
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        autoFocus
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="password"
-                    />
-                    <p>{passwordError}</p>
+                    {showPasswordField ? (
+                        <>
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                autoFocus
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="password"
+                            />
+                            <p>{passwordError}</p>
+                        </>
+                    ) : (
+                        ""
+                    )}
                     <div>
-                        {hasAccount ? (
+                        {!showPasswordField ? (
+                            <>
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        resetPassword(email);
+                                    }}
+                                >
+                                    Change password
+                                </button>
+                                <p className="message">
+                                    Have an account?{" "}
+                                    <span
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setHasAccount(!hasAccount);
+                                            setShowPasswordField(true);
+                                        }}
+                                    >
+                                        Sign in
+                                    </span>
+                                </p>
+                                <p className="message">
+                                    Don't have an account?{" "}
+                                    <span
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setHasAccount(!hasAccount);
+                                            setShowPasswordField(true);
+                                        }}
+                                    >
+                                        Sign up
+                                    </span>
+                                </p>
+                            </>
+                        ) : hasAccount ? (
                             <>
                                 <button onClick={handleLogIn}>Sign in</button>
                                 <p className="message">
@@ -58,6 +104,21 @@ const Login = () => {
                                         Sign up
                                     </span>
                                 </p>
+                                {showReset ? (
+                                    <p className="message">
+                                        Forgot your{" "}
+                                        <span
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setShowPasswordField(false);
+                                            }}
+                                        >
+                                            password?
+                                        </span>
+                                    </p>
+                                ) : (
+                                    ""
+                                )}
                             </>
                         ) : (
                             <>

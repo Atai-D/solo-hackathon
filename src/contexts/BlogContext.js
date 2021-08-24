@@ -277,19 +277,19 @@ const BlogContextProvider = ({ children }) => {
                 totalPrice: 0,
             };
         }
-        let newBlog = {
-            ...blog,
+        let newblog = {
+            item: blog,
             count: 1,
             subPrice: +blog.price,
         };
 
-        // console.log(blog);
+        console.log(newblog);
 
-        let blogToFind = cart.blogs.filter((item) => item.id === blog.id);
+        let blogToFind = cart.blogs.filter((item) => item.item.id === blog.id);
         if (blogToFind.length == 0) {
-            cart.blogs.push(newBlog);
+            cart.blogs.push(newblog);
         } else {
-            cart.blogs = cart.blogs.filter((item) => item.id !== blog.id);
+            cart.blogs = cart.blogs.filter((item) => item.item.id !== blog.id);
         }
         cart.totalPrice = calcTotalPrice(cart.blogs);
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -299,11 +299,11 @@ const BlogContextProvider = ({ children }) => {
         });
     };
 
-    const changeBlogCount = (days, id) => {
+    const changeBlogCount = (count, id) => {
         let cart = JSON.parse(localStorage.getItem("cart"));
         cart.blogs = cart.blogs.map((blog) => {
-            if (blog.id === id) {
-                blog.days = days;
+            if (blog.item.id === id) {
+                blog.count = count;
                 blog.subPrice = calcSubPrice(blog);
             }
             return blog;
@@ -316,22 +316,90 @@ const BlogContextProvider = ({ children }) => {
         });
     };
 
-    const changeBlogPrice = (promPrice, id) => {
-        let cart = JSON.parse(localStorage.getItem("cart"));
-        cart.blogs = cart.blogs.map((blog) => {
-            if (blog.id === id) {
-                blog.promPrice = promPrice;
-                blog.subPrice = calcSubPrice(blog);
-            }
-            return blog;
-        });
-        cart.totalPrice = calcTotalPrice(cart.blogs);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        dispatch({
-            type: BLOG_ACTIONS.GET_CART,
-            payload: cart,
-        });
-    };
+    // const getCart = () => {
+    //     let cart = JSON.parse(localStorage.getItem("cart"));
+    //     if (!cart) {
+    //         localStorage.setItem(
+    //             "cart",
+    //             JSON.stringify({
+    //                 blogs: [],
+    //                 totalPrice: 0,
+    //             })
+    //         );
+    //         cart = {
+    //             blogs: [],
+    //             totalPrice: 0,
+    //         };
+    //     }
+    //     dispatch({
+    //         type: BLOG_ACTIONS.GET_CART,
+    //         payload: cart,
+    //     });
+    // };
+
+    // const addBlogToCart = (blog) => {
+    //     let cart = JSON.parse(localStorage.getItem("cart"));
+    //     if (!cart) {
+    //         cart = {
+    //             blogs: [],
+    //             totalPrice: 0,
+    //         };
+    //     }
+    //     let newBlog = {
+    //         ...blog,
+    //         count: 1,
+    //         subPrice: +blog.price,
+    //     };
+
+    //     // console.log(blog);
+
+    //     let blogToFind = cart.blogs.filter((item) => item.id === blog.id);
+    //     if (blogToFind.length == 0) {
+    //         cart.blogs.push(newBlog);
+    //     } else {
+    //         cart.blogs = cart.blogs.filter((item) => item.id !== blog.id);
+    //     }
+    //     cart.totalPrice = calcTotalPrice(cart.blogs);
+    //     localStorage.setItem("cart", JSON.stringify(cart));
+    //     dispatch({
+    //         type: BLOG_ACTIONS.GET_CART,
+    //         payload: cart,
+    //     });
+    // };
+
+    // const changeBlogCount = (days, id) => {
+    //     let cart = JSON.parse(localStorage.getItem("cart"));
+    //     cart.blogs = cart.blogs.map((blog) => {
+    //         if (blog.id === id) {
+    //             blog.days = days;
+    //             blog.subPrice = calcSubPrice(blog);
+    //         }
+    //         return blog;
+    //     });
+    //     cart.totalPrice = calcTotalPrice(cart.blogs);
+    //     localStorage.setItem("cart", JSON.stringify(cart));
+    //     dispatch({
+    //         type: BLOG_ACTIONS.GET_CART,
+    //         payload: cart,
+    //     });
+    // };
+
+    // const changeBlogPrice = (promPrice, id) => {
+    //     let cart = JSON.parse(localStorage.getItem("cart"));
+    //     cart.blogs = cart.blogs.map((blog) => {
+    //         if (blog.id === id) {
+    //             blog.promPrice = promPrice;
+    //             blog.subPrice = calcSubPrice(blog);
+    //         }
+    //         return blog;
+    //     });
+    //     cart.totalPrice = calcTotalPrice(cart.blogs);
+    //     localStorage.setItem("cart", JSON.stringify(cart));
+    //     dispatch({
+    //         type: BLOG_ACTIONS.GET_CART,
+    //         payload: cart,
+    //     });
+    // };
 
     const deleteCart = () => {
         localStorage.removeItem("cart");
@@ -350,48 +418,56 @@ const BlogContextProvider = ({ children }) => {
     };
 
     const payForBlogs = async (blogs) => {
-        let cart = JSON.parse(localStorage.getItem("cart"));
-
-        const newBlogs = blogs?.map((blog) => {
-            return { ...blog, promotionDate: Date.now() };
+        const ref = fire.firestore().collection("users");
+        const refGet = await ref.get();
+        let curUser = {};
+        refGet.docs.forEach((doc) => {
+            if (doc.data().email === email) {
+                curUser = doc.data();
+            }
         });
-        let tempBlogs = newBlogs.concat(state.promotionBlogs);
-        dispatch({
-            type: BLOG_ACTIONS.ADD_PROMOTION_BLOG,
-            payload: tempBlogs,
-        });
-
-        blogs.map(async (blog) => {
-            const changedBlog = { ...blog, priority: 3 };
-
-            const { data } = await axios.patch(
-                `${JSON_API_BLOGS}/${blog.id}`,
-                changedBlog
-            );
-            const res = await axios(`${JSON_API_USERS}/${blog.authorsId}`);
-
-            const array = res.data.usersBlogs.map((usersBlog) => {
-                if (blog.id === usersBlog.id) {
-                    return changedBlog;
-                } else {
-                    return usersBlog;
-                }
-            });
-            const changedUser = { ...res.data, usersBlogs: array };
-
-            const a = await axios.patch(
-                `${JSON_API_USERS}/${blog.authorsId}`,
-                changedUser
-            );
-        });
-        const newChangedBlogs = await axios(`${JSON_API_BLOGS}`);
-
-        dispatch({
-            type: BLOG_ACTIONS.GET_BLOGS_DATA,
-            payload: newChangedBlogs,
-        });
-
+        console.log(curUser);
+        console.log(blogs);
+        curUser.lastOrders.push(blogs);
+        let userWithPayment = { ...curUser };
+        console.log(userWithPayment);
+        ref.doc(curUser.id).set(userWithPayment);
         deleteCart();
+        // let cart = JSON.parse(localStorage.getItem("cart"));
+        // const newBlogs = blogs?.map((blog) => {
+        //     return { ...blog, promotionDate: Date.now() };
+        // });
+        // let tempBlogs = newBlogs.concat(state.promotionBlogs);
+        // dispatch({
+        //     type: BLOG_ACTIONS.ADD_PROMOTION_BLOG,
+        //     payload: tempBlogs,
+        // });
+        // blogs.map(async (blog) => {
+        //     const changedBlog = { ...blog, priority: 3 };
+        //     const { data } = await axios.patch(
+        //         `${JSON_API_BLOGS}/${blog.id}`,
+        //         changedBlog
+        //     );
+        //     const res = await axios(`${JSON_API_USERS}/${blog.authorsId}`);
+        //     const array = res.data.usersBlogs.map((usersBlog) => {
+        //         if (blog.id === usersBlog.id) {
+        //             return changedBlog;
+        //         } else {
+        //             return usersBlog;
+        //         }
+        //     });
+        //     const changedUser = { ...res.data, usersBlogs: array };
+        //     const a = await axios.patch(
+        //         `${JSON_API_USERS}/${blog.authorsId}`,
+        //         changedUser
+        //     );
+        // });
+        // const newChangedBlogs = await axios(`${JSON_API_BLOGS}`);
+        // dispatch({
+        //     type: BLOG_ACTIONS.GET_BLOGS_DATA,
+        //     payload: newChangedBlogs,
+        // });
+        // deleteCart();
     };
 
     const renderPromotionBlogs = (promotionBlogs) => {
@@ -561,7 +637,7 @@ const BlogContextProvider = ({ children }) => {
         // getBlogDetails(id);
     };
 
-    const addBlogToFavourites = async (blog) => {
+    const addBlogToFavorites = async (blog) => {
         const ref = fire.firestore().collection("users");
         let newUser = {};
         // ref.onSnapshot((querySnapshot) => {
@@ -649,12 +725,15 @@ const BlogContextProvider = ({ children }) => {
         setIsPromoted,
         promotionBlogs: state.promotionBlogs,
         addBlogToCart,
+        // addProductToCart,
+
         cart: state.cart,
         getCart,
         changeBlogCount,
-        changeBlogPrice,
+        // changeProductCount,
+        // changeBlogPrice,
+
         deleteCart,
-        changeBlogPrice,
         payForBlogs,
         payingBlogs: state.payingBlogs,
         handlePayingBlogs,
@@ -665,7 +744,7 @@ const BlogContextProvider = ({ children }) => {
         editComment,
         setLimit,
         limit,
-        addBlogToFavourites,
+        addBlogToFavorites,
     };
     return (
         <BlogContext.Provider value={value}>{children}</BlogContext.Provider>

@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 const CartCard = ({ blog }) => {
     const classes = useStyles();
-    const [days, setDays] = useState(blog.days);
+    const [days, setDays] = useState(+blog.count);
     const [price, setPrice] = useState(blog.promPrice);
     const { promotionBlogs } = useBlog();
     const { cart, getCart, changeBlogCount, changeBlogPrice, addBlogToCart } =
@@ -36,17 +36,60 @@ const CartCard = ({ blog }) => {
     const handleCountChange = (e) => {
         const res = eval(`${days}${e.target.innerText}`);
         setDays(res);
-        changeBlogCount(res, blog.id);
+        changeBlogCount(res, blog.item.id);
     };
 
-    const handlePriceChange = (e) => {
-        const res = eval(`${price}${e.target.innerText}`);
-        changeBlogPrice(res, blog.id);
-        setPrice(res);
-    };
+    // const handlePriceChange = (e) => {
+    //     const res = eval(`${price}${e.target.innerText}`);
+    //     changeBlogPrice(res, blog.id);
+    //     setPrice(res);
+    // };
 
     return (
-        <TableRow key={blog.id}>
+        <>
+            <TableRow key={blog.item.id}>
+                <TableCell>
+                    <img
+                        className={classes.tableCellImg}
+                        src={blog.item.image}
+                        alt={blog.item.title}
+                    />
+                </TableCell>
+                <TableCell align="right">{blog.item.title}</TableCell>
+                <TableCell align="right">{blog.item.price}</TableCell>
+                <TableCell align="right">
+                    <Button
+                        onClick={handleCountChange}
+                        disabled={days - 5 < 1 ? "disabled" : ""}
+                    >
+                        -5
+                    </Button>
+                    <Button
+                        onClick={handleCountChange}
+                        disabled={days - 1 < 1 ? "disabled" : ""}
+                    >
+                        -1
+                    </Button>
+                    {days} days
+                    <Button
+                        onClick={handleCountChange}
+                        disabled={days + 1 > 30 ? "disabled" : ""}
+                    >
+                        +1
+                    </Button>
+                    <Button
+                        onClick={handleCountChange}
+                        disabled={days + 5 > 30 ? "disabled" : ""}
+                    >
+                        +5
+                    </Button>
+                    <Button onClick={() => addBlogToCart(blog.item)}>
+                        Remove
+                    </Button>
+                </TableCell>
+                <TableCell align="right">{blog.subPrice}</TableCell>
+            </TableRow>
+            {/* <TableRow key={blog.id}>
             <TableCell>
                 <img
                     className={classes.tableCellImg}
@@ -113,7 +156,8 @@ const CartCard = ({ blog }) => {
                 </Button>
             </TableCell>
             <TableCell align="right">{blog.subPrice}</TableCell>
-        </TableRow>
+        </TableRow> */}
+        </>
     );
 };
 

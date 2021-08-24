@@ -31,20 +31,78 @@ const Cart = () => {
     const classes = useStyles();
     const [value, setValue] = useState(30);
     const { promotionBlogs, history, handlePayingBlogs } = useBlog();
-    const { cart, getCart, changeBlogCount } = useBlog();
+    // const { cart, getCart, changeBlogCount } = useBlog();
     const [count, setCount] = useState([]);
+    const { cart, getCart, changeBlogCount } = useBlog();
 
     useEffect(() => {
         getCart();
     }, []);
 
+    useEffect(() => {
+        setCount();
+    }, [cart]);
+
+    const handleCountChange = (count, id) => {
+        changeBlogCount(count, id);
+    };
+
+    // useEffect(() => {
+    //     getCart();
+    // }, []);
+
     const handlePayBtn = () => {
         history.push("/payment");
-        handlePayingBlogs(cart.blogs);
+        handlePayingBlogs(cart);
     };
     return (
         <>
             {cart?.blogs?.length > 0 ? (
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="caption table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Image</TableCell>
+                                <TableCell align="right">Title</TableCell>
+                                <TableCell align="right">Price</TableCell>
+                                <TableCell align="right">Count</TableCell>
+                                <TableCell align="right">SubPrice</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {cart?.blogs?.length > 0 &&
+                                cart.blogs.map((blog) => (
+                                    <CartCard key={blog.item.id} blog={blog} />
+                                ))}
+
+                            <TableRow>
+                                <TableCell rowSpan={3} />
+                                <TableCell colSpan={2}>
+                                    <Typography variant="h5">Total:</Typography>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Typography variant="h5">
+                                        {cart.totalPrice}
+                                        <Button onClick={handlePayBtn}>
+                                            <PaymentIcon
+                                                style={{
+                                                    width: "50px",
+                                                    height: "50px",
+                                                }}
+                                            />
+                                        </Button>
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            ) : (
+                <h2>
+                    Добавьте что-нибудь в корзину, перед тем как смотерть в неё
+                </h2>
+            )}
+            {/* {cart?.blogs?.length > 0 ? (
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="caption table">
                         <TableHead>
@@ -93,7 +151,7 @@ const Cart = () => {
                 <h1 style={{ color: "#caedc5", fontFamily: "nunito" }}>
                     Похоже здесь нет блогов
                 </h1>
-            )}
+            )} */}
         </>
     );
 };

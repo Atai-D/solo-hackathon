@@ -403,9 +403,14 @@ export default function Navbar() {
                     >
                         <Nav className="me-auto">
                             {email ? (
-                                <NavLink className="navig-item" to="/cart">
-                                    Cart
-                                </NavLink>
+                                <>
+                                    <NavLink className="navig-item" to="/cart">
+                                        MyOrders
+                                    </NavLink>
+                                    <NavLink className="navig-item" to="/cart">
+                                        Cart
+                                    </NavLink>
+                                </>
                             ) : (
                                 ""
                             )}

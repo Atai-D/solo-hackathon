@@ -10,6 +10,7 @@ const Payment = () => {
 
     const handleSubmitPayment = (e) => {
         e.preventDefault();
+        console.log(payingBlogs);
         payForBlogs(payingBlogs);
         history.push("/mypromotions");
     };
@@ -86,8 +87,8 @@ const Payment = () => {
                     <div
                         className="col=sm-8"
                         style={{
-                            ...{ "padding-right": "12em" },
-                            ...{ "padding-left": "1em" },
+                            paddingRight: "12em",
+                            paddingLeft: "1em",
                         }}
                     >
                         <label for="month">Expiration Date</label>

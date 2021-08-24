@@ -40,11 +40,20 @@ export const BLOG_ACTIONS = {
 };
 
 export const calcSubPrice = (blog) => {
-    return +blog.days * +blog.promPrice;
+    return blog.count * blog.item.price;
 };
-
 export const calcTotalPrice = (blogs) => {
     return blogs.reduce((ac, cur) => {
         return (ac += cur.subPrice);
     }, 0);
 };
+
+// export const calcSubPrice = (blog) => {
+//     return +blog.days * +blog.promPrice;
+// };
+
+// export const calcTotalPrice = (blogs) => {
+//     return blogs.reduce((ac, cur) => {
+//         return (ac += cur.subPrice);
+//     }, 0);
+// };
