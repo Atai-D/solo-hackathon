@@ -129,7 +129,7 @@ export default function BlogCard({ blog, showAuthor }) {
         const idToFind = newUser?.favorites?.filter(
             (blogsId) => blogsId === blog.id
         );
-        if (idToFind.length === 0) {
+        if (idToFind?.length === 0) {
             setActiveFav(false);
         } else {
             setActiveFav(true);

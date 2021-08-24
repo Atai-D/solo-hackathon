@@ -62,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
 
     blogListContainer: {
         // backgroundColor: "#ffffe6",
+        background: `url(
+            "https://doctorhead.ru/local/templates/doctorhead/theme/build/images/bg.jpg"
+        )`,
         paddingBottom: "20px",
     },
     blogListCards: {

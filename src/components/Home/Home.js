@@ -3,7 +3,6 @@ import { CssBaseline, IconButton, makeStyles } from "@material-ui/core";
 import { display, fontSize, fontWeight, textAlign } from "@material-ui/system";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Collapse } from "@material-ui/core";
-import History from "../History/History";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -68,7 +67,7 @@ export default function Home() {
     }, []);
     return (
         <>
-            <div className={classes.mainRoot}>
+            {/* <div className={classes.mainRoot}>
                 <CssBaseline />
                 <Collapse
                     in={checked}
@@ -129,7 +128,7 @@ export default function Home() {
                         </Card>
                     </div>
                 </Collapse>
-            </div>
+            </div> */}
         </>
     );
 }

@@ -30,9 +30,6 @@ const AuthContextProvider = ({ children }) => {
 
         fire.auth()
             .signInWithEmailAndPassword(email, password)
-            .then(() => {
-                // console.log("hi");
-            })
             .catch((err) => {
                 switch (err.code) {
                     case "auth/invalid-email":
