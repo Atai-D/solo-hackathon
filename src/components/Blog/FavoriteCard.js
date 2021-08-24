@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import fire from "../firebase/firebase";
 import BlogCard from "./BlogCard";
 
@@ -26,30 +27,34 @@ const FavoriteCard = ({ blogsId }) => {
         <>
             <div className="small">
                 <article className="recipe">
-                    <div className="pizza-box">
-                        <img
-                            src="https://brotokoll.com/wp-content/uploads/2019/12/xPSX_20190928_134709.jpg.pagespeed.ic.qsjw5ilFw5.jpg"
-                            width="1500"
-                            height="1368"
-                            alt=""
-                        />
-                    </div>
+                    <NavLink to={`blog/${blog.id}`}>
+                        <div className="pizza-box">
+                            <img
+                                src={blog.image}
+                                width="1500"
+                                height="1368"
+                                alt={blog.image}
+                            />
+                        </div>
+                    </NavLink>
                     <div className="recipe-content">
-                        <p className="recipe-tags">
+                        {/* <p className="recipe-tags">
                             <span className="recipe-tag">Gluten Free</span>
                             <span className="recipe-tag">Main dish</span>
-                        </p>
+                        </p> */}
 
                         <h1 className="recipe-title">
-                            <a href="#">Gluten Free Pan Pizza</a>
+                            <NavLink to={`blog/${blog.id}`}>
+                                Gluten Free Pan Pizza
+                            </NavLink>
                         </h1>
 
-                        <p className="recipe-metadata">
+                        {/* <p className="recipe-metadata">
                             <span className="recipe-rating">
                                 ★★★★<span>☆</span>
                             </span>
                             <span className="recipe-votes">(12 votes)</span>
-                        </p>
+                        </p> */}
 
                         <p className="recipe-desc">
                             It really is possible to make excellent gluten free

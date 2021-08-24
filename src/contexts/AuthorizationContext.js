@@ -16,6 +16,9 @@ const AuthContextProvider = ({ children }) => {
     const [passwordError, setPasswordError] = useState("");
     const [hasAccount, setHasAccount] = useState(false);
 
+    const [showPasswordField, setShowPasswordField] = useState(true);
+    const [showReset, setShowReset] = useState(false);
+
     const clearInputs = () => {
         setEmail("");
         setPassword("");
@@ -39,11 +42,17 @@ const AuthContextProvider = ({ children }) => {
                         setEmailError(err.message);
                         break;
                     case "auth/wrong-password":
+                        setShowReset(true);
                         setPasswordError(err.message);
                         break;
                 }
             });
     };
+
+    function resetPassword(email) {
+        const auth = fire.auth();
+        return auth.sendPasswordResetEmail(email);
+    }
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -120,6 +129,11 @@ const AuthContextProvider = ({ children }) => {
         setHasAccount,
         emailError,
         passwordError,
+        resetPassword,
+        showReset,
+        setShowReset,
+        showPasswordField,
+        setShowPasswordField,
     };
 
     return (

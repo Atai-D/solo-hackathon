@@ -157,7 +157,7 @@ export default function BlogDetails() {
         });
         console.log(user);
         const idToFind = user?.lastViews?.filter((blogIds) => blogIds === id);
-        if (idToFind.length === 0) {
+        if (idToFind?.length === 0) {
             user?.lastViews?.push(id);
             let userWithLast = { ...user };
             ref.doc(user.id).update(userWithLast);
