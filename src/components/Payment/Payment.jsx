@@ -48,6 +48,7 @@ const Payment = () => {
             <form
                 style={{ marginBottom: "50px" }}
                 onSubmit={handleSubmitPayment}
+                className='payment-form'
             >
                 <div className="row">
                     <div className="col-sm-11">

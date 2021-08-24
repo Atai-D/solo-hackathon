@@ -419,9 +419,17 @@ export default function Navbar() {
                                 AllBlogs
                             </NavLink>
                             {email ? (
-                                <NavLink className="navig-item" to="/favorite">
-                                    Favorites
-                                </NavLink>
+                                <>
+                                    <NavLink
+                                        className="navig-item"
+                                        to="/favorite"
+                                    >
+                                        Favorites
+                                    </NavLink>
+                                    <NavLink className="navig-item" to="/chat">
+                                        Chat
+                                    </NavLink>
+                                </>
                             ) : (
                                 ""
                             )}

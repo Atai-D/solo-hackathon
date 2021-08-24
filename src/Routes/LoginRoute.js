@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthorizationContext";
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const LoginRoute = ({ component: Component, ...rest }) => {
     const {
         user: { email },
     } = useAuth();
@@ -14,7 +14,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         <Route
             {...rest}
             render={({ location }) => {
-                if (email) {
+                if (!email) {
                     return <Component />;
                 } else {
                     // setLogModal(true);
@@ -32,4 +32,4 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     );
 };
 
-export default ProtectedRoute;
+export default LoginRoute;
