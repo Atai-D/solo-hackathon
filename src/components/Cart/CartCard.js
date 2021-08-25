@@ -1,19 +1,5 @@
-import {
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    makeStyles,
-    TableRow,
-    Slider,
-    Grid,
-    Input,
-    Button,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import Paper from "@material-ui/core/Paper";
+import { TableCell, makeStyles, TableRow, Button } from "@material-ui/core";
+import React, { useState } from "react";
 import { useBlog } from "../../contexts/BlogContext";
 
 const useStyles = makeStyles({
@@ -28,10 +14,7 @@ const useStyles = makeStyles({
 const CartCard = ({ blog }) => {
     const classes = useStyles();
     const [count, setCount] = useState(+blog.count);
-    const [price, setPrice] = useState(blog.promPrice);
-    const { promotionBlogs } = useBlog();
-    const { cart, getCart, changeBlogCount, changeBlogPrice, addBlogToCart } =
-        useBlog();
+    const { changeBlogCount, addBlogToCart } = useBlog();
 
     const handleCountChange = (e) => {
         const res = eval(`${count}${e.target.innerText}`);

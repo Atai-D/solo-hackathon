@@ -23,7 +23,7 @@ const Login = () => {
         <>
             <section className="form">
                 <form className="login-form">
-                    <label>Username</label>
+                    <label>Email address</label>
                     <input
                         type="text"
                         autoFocus
@@ -82,6 +82,7 @@ const Login = () => {
                                             setHasAccount(!hasAccount);
                                             setShowPasswordField(true);
                                         }}
+                                        style={{ color: "#00aeff" }}
                                     >
                                         Sign up
                                     </span>
@@ -97,6 +98,7 @@ const Login = () => {
                                             e.preventDefault();
                                             setHasAccount(!hasAccount);
                                         }}
+                                        style={{ color: "#00aeff" }}
                                     >
                                         Sign up
                                     </span>
@@ -109,6 +111,7 @@ const Login = () => {
                                                 e.preventDefault();
                                                 setShowPasswordField(false);
                                             }}
+                                            style={{ color: "#00aeff" }}
                                         >
                                             password?
                                         </span>
@@ -127,6 +130,7 @@ const Login = () => {
                                             e.preventDefault();
                                             setHasAccount(!hasAccount);
                                         }}
+                                        style={{ color: "#00aeff" }}
                                     >
                                         Sign in
                                     </span>

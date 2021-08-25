@@ -8,8 +8,7 @@ import { useAuth } from "../../contexts/AuthorizationContext";
 const CommentCard = ({ comment, blogDetails, id }) => {
     const [openEditInp, setOpenEditInp] = useState(false);
     const [editInp, setEditInp] = useState("");
-    const { addComment, deleteComment, editComment, getBlogDetails } =
-        useBlog();
+    const { deleteComment, editComment } = useBlog();
     const {
         user: { email },
     } = useAuth();

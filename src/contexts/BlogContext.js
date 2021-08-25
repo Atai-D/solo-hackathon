@@ -44,8 +44,6 @@ const BlogContextProvider = ({ children }) => {
     const INIT_STATE = {
         blogs: [],
         blogDetails: {},
-        pages: 1,
-        promotionBlogs: [],
         cart: [],
         payingBlogs: [],
     };
@@ -57,11 +55,6 @@ const BlogContextProvider = ({ children }) => {
                     ...state,
                     blogs: action.payload,
                 };
-            case BLOG_ACTIONS.GET_PAGES:
-                return {
-                    ...state,
-                    pages: Math.ceil(action.payload.length / BLOG_LIMIT),
-                };
             case BLOG_ACTIONS.ADD_BLOG:
                 let newBlogs = [...state.blogs];
                 newBlogs.push(action.payload);
@@ -70,14 +63,10 @@ const BlogContextProvider = ({ children }) => {
                 return { ...state, blogDetails: action.payload };
             case BLOG_ACTIONS.ISEDITTING_USER:
                 return { ...state, isEdittingUser: action.payload };
-            case BLOG_ACTIONS.ADD_PROMOTION_BLOG:
-                return { ...state, promotionBlogs: action.payload };
             case BLOG_ACTIONS.GET_CART:
                 return { ...state, cart: action.payload };
             case BLOG_ACTIONS.GET_PAYING_BLOGS:
                 return { ...state, payingBlogs: action.payload };
-            case BLOG_ACTIONS.GET_PROMOTIONS_DATA:
-                return { ...state, promotionBlogs: action.payload };
             default:
                 return state;
         }
@@ -122,7 +111,7 @@ const BlogContextProvider = ({ children }) => {
         });
     };
 
-    const addBlog = async (title, image, text, price, category, type) => {
+    const addBlog = (title, image, text, price, category, type) => {
         const ref = fire.firestore().collection("blogs");
         let newBlog = {
             title: title,
@@ -271,13 +260,6 @@ const BlogContextProvider = ({ children }) => {
         console.log(userWithPayment);
         ref.doc(curUser.id).set(userWithPayment);
         deleteCart();
-    };
-
-    const renderPromotionBlogs = (promotionBlogs) => {
-        dispatch({
-            type: BLOG_ACTIONS.GET_PROMOTIONS_DATA,
-            payload: promotionBlogs,
-        });
     };
 
     const addLike = async (blog, blogsId) => {
@@ -433,7 +415,6 @@ const BlogContextProvider = ({ children }) => {
         edittingId,
         setEdittingId,
         saveEditBlog,
-        pages: state.pages,
         blogPrice,
         setBlogPrice,
         addBlog,
@@ -441,7 +422,6 @@ const BlogContextProvider = ({ children }) => {
         setPromoted,
         isPromoted,
         setIsPromoted,
-        promotionBlogs: state.promotionBlogs,
         addBlogToCart,
         cart: state.cart,
         getCart,
@@ -450,7 +430,6 @@ const BlogContextProvider = ({ children }) => {
         payForBlogs,
         payingBlogs: state.payingBlogs,
         handlePayingBlogs,
-        renderPromotionBlogs,
         addLike,
         addComment,
         deleteComment,

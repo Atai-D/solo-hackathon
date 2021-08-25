@@ -7,9 +7,6 @@ import {
     TableHead,
     makeStyles,
     TableRow,
-    Slider,
-    Grid,
-    Input,
     Button,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
@@ -29,22 +26,12 @@ const useStyles = makeStyles({
 
 const Cart = () => {
     const classes = useStyles();
-    const [value, setValue] = useState(30);
-    const { promotionBlogs, history, handlePayingBlogs } = useBlog();
-    const [count, setCount] = useState([]);
+    const { history, handlePayingBlogs } = useBlog();
     const { cart, getCart, changeBlogCount } = useBlog();
 
     useEffect(() => {
         getCart();
     }, []);
-
-    useEffect(() => {
-        setCount();
-    }, [cart]);
-
-    const handleCountChange = (count, id) => {
-        changeBlogCount(count, id);
-    };
 
     const handlePayBtn = () => {
         history.push("/payment");
