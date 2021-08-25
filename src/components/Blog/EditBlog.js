@@ -11,17 +11,10 @@ import { useBlog } from "../../contexts/BlogContext";
 import { BRANDS } from "../../helpers/consts";
 
 const EditBlog = () => {
-    const {
-        editModal,
-        setEditModal,
-        blogDetails,
-        edittingId,
-        getBlogDetails,
-        saveEditBlog,
-    } = useBlog();
+    const { editModal, setEditModal, blogDetails, edittingId, saveEditBlog } =
+        useBlog();
 
     const [blog, setBlog] = useState(blogDetails);
-    const [editCategory, setEditCategory] = useState(BRANDS[0].value);
 
     const handleInp = (e) => {
         let obj = {

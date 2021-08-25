@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { withStyles } from "@material-ui/core/styles";
-import Pagination from "@material-ui/lab/Pagination";
 import { green } from "@material-ui/core/colors";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -16,7 +15,7 @@ import { useBlog } from "../../contexts/BlogContext";
 import { BLOG_ACTIONS, BLOG_LIMIT, BRANDS } from "../../helpers/consts";
 import BlogCard from "./BlogCard";
 import EditBlog from "./EditBlog";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { alpha, makeStyles } from "@material-ui/core/styles";
 import fire from "../firebase/firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
         position: "relative",
         margin: "10px",
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
         "&:hover": {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: alpha(theme.palette.common.white, 0.25),
         },
         marginRight: theme.spacing(2),
         marginLeft: 0,
@@ -61,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
     },
 
     blogListContainer: {
-        // backgroundColor: "#ffffe6",
         background: `url(
             "https://doctorhead.ru/local/templates/doctorhead/theme/build/images/bg.jpg"
         )`,
@@ -69,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
     },
     blogListCards: {
         display: "flex",
-        // justifyContent: "space-evenly",
         flexWrap: "wrap",
     },
     sideBar: {
@@ -84,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BlogList = () => {
     const classes = useStyles();
-    const { blogs, getBlogsData, pages, dispatch, setLimit, limit } = useBlog();
+    const { blogs, getBlogsData, dispatch, setLimit, limit } = useBlog();
     const [searchBar, setSearchBar] = useState("");
 
     const history = useHistory();
@@ -318,7 +315,7 @@ const BlogList = () => {
                             </div>
                         </div>
                         {blogs.length >= limit ? (
-                            <button onClick={showMore}>showMore</button>
+                            <Button onClick={showMore}>show More</Button>
                         ) : (
                             ""
                         )}

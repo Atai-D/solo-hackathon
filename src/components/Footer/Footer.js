@@ -1,10 +1,6 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import {
-    AiFillInstagram,
-    AiOutlineTwitter,
-    AiFillFacebook,
-} from "react-icons/ai";
+import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
 
 const Footer = () => {
     return (
@@ -16,7 +12,7 @@ const Footer = () => {
                         <p className="list-unstyled">
                             This is store where you can buy <br /> different
                             awesome headphones <br />
-                            The name 'HACKASHOP' cames from <br />
+                            The name 'HACKASHOP' comes from <br />
                             two words: 'hackathon' and 'shop'
                         </p>
                     </div>
@@ -61,11 +57,15 @@ const Footer = () => {
                             </li>
                             <li>
                                 <a
-                                    href="https://twitter.com/home?lang=en"
+                                    href="https://www.linkedin.com/in/%D0%B0%D1%82%D0%B0%D0%B9-%D0%B4%D0%B6%D0%B8%D1%80%D0%B3%D0%B0%D0%BB%D0%B1%D0%B0%D0%B5%D0%B2-354a6221a/"
                                     target="_blank"
                                 >
-                                    <AiOutlineTwitter
-                                        style={{ color: "#000" }}
+                                    <LinkedInIcon
+                                        style={{
+                                            color: "#000",
+                                            width: "50px",
+                                            height: "50px",
+                                        }}
                                     />
                                 </a>
                             </li>

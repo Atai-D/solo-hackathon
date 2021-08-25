@@ -8,7 +8,6 @@ const LastOrdersCard = ({ payment }) => {
     }, []);
     return (
         <>
-            <h1 style={{ margin: "auto" }}>Last Orders:</h1>
             <div className="order-container">
                 {payment.blogs.map((blog) => {
                     console.log(blog);

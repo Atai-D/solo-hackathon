@@ -1,15 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useAuth, useAutho } from "../../contexts/AuthorizationContext";
+import { useAuth } from "../../contexts/AuthorizationContext";
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
 import { Button as ButtonUI, Button } from "@material-ui/core";
-import MoreIcon from "@material-ui/icons/MoreVert";
 
 import { NavLink, useHistory } from "react-router-dom";
 import { useBlog } from "../../contexts/BlogContext";
@@ -89,7 +82,7 @@ export default function Navbar() {
                                 ""
                             )}
                             <NavLink className="navig-item" to={`/bloglist`}>
-                                AllBlogs
+                                AllHeadphones
                             </NavLink>
                             {email && email !== "ataydjirgalbaev@gmail.com" ? (
                                 <>
@@ -103,7 +96,7 @@ export default function Navbar() {
                             ) : (
                                 ""
                             )}
-                            {email !== "ataydjirgalbaev@gmail.com" ? (
+                            {email && email !== "ataydjirgalbaev@gmail.com" ? (
                                 <NavLink className="navig-item" to="/chat">
                                     Chat
                                 </NavLink>
@@ -112,7 +105,7 @@ export default function Navbar() {
                             )}
                             {email === "ataydjirgalbaev@gmail.com" ? (
                                 <NavLink className="navig-item" to="/addblog">
-                                    AddBlog
+                                    AddHeadPhone
                                 </NavLink>
                             ) : (
                                 ""

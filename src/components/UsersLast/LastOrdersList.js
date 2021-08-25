@@ -22,13 +22,16 @@ const LastOrdersList = () => {
         setLastOrders(newUser.lastOrders);
     }, []);
     return (
-        <div className="fav-container">
-            {lastOrders?.length > 0
-                ? lastOrders.map((payment) => {
-                      return <LastOrdersCard payment={payment} />;
-                  })
-                : "Order something"}
-        </div>
+        <>
+            <h1 style={{ margin: "auto" }}>Last Orders:</h1>
+            <div className="fav-container">
+                {lastOrders?.length > 0
+                    ? lastOrders.map((payment) => {
+                          return <LastOrdersCard payment={payment} />;
+                      })
+                    : "Order something"}
+            </div>
+        </>
     );
 };
 
