@@ -74,15 +74,6 @@ const AuthContextProvider = ({ children }) => {
                     .catch((err) => {
                         console.log(err);
                     });
-
-                // const usersRef = fire.database().ref("Users");
-                // let newUser = {
-                //     email: email,
-                //     password: password,
-                //     lastOrders: [],
-                // };
-                // usersRef.push(newUser);
-                // console.log(usersRef);
             })
             .catch((err) => {
                 switch (err.code) {

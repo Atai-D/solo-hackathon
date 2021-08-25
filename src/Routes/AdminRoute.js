@@ -7,14 +7,12 @@ const AdminRoute = ({ component: Component, ...rest }) => {
         user: { email },
     } = useAuth();
     return (
-        // <></>
         <Route
             {...rest}
             render={({ location }) => {
                 if (email == "ataydjirgalbaev@gmail.com") {
                     return <Component />;
                 } else {
-                    // setLogModal(true);
                     return (
                         <Redirect
                             to={{

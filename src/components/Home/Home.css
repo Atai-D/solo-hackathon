@@ -1,0 +1,14 @@
+.home-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.more {
+    margin: 0 auto;
+    font-size: 38px;
+    display: block;
+    width: 200px;
+    margin-bottom: 50px;
+}

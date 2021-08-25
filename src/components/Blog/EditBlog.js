@@ -4,19 +4,11 @@ import {
     TextField,
     Typography,
     Button as ButtonUI,
-    MenuItem,
 } from "@material-ui/core";
-import axios from "axios";
 import { Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { useAutho } from "../../contexts/AuthorizationContext";
 import { useBlog } from "../../contexts/BlogContext";
-import {
-    BLOG_ACTIONS,
-    BRANDS,
-    JSON_API_BLOGS,
-    JSON_API_USERS,
-} from "../../helpers/consts";
+import { BRANDS } from "../../helpers/consts";
 
 const EditBlog = () => {
     const {
@@ -38,10 +30,6 @@ const EditBlog = () => {
         };
         setBlog(obj);
     };
-
-    // useEffect(() => {
-    //     getBlogDetails(edittingId);
-    // }, [edittingId]);
 
     useEffect(() => {
         setBlog(blogDetails);

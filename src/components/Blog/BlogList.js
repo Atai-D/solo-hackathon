@@ -88,142 +88,34 @@ const BlogList = () => {
     const [searchBar, setSearchBar] = useState("");
 
     const history = useHistory();
-    const getCurrentPage = () => {
-        const search = new URLSearchParams(window.location.search);
 
-        if (!search.get("_page")) {
-            return 1;
-        }
-
-        return search.get("_page");
-    };
-    const [page, setPage] = useState(getCurrentPage());
     useEffect(() => {
         getBlogsData();
     }, []);
 
-    const handlePage = (e, page) => {
-        // const search = new URLSearchParams(window.location.search);
-        // search.set("_page", page);
-        // history.push(`${history.location.pathname}?${search.toString()}`);
-        // console.log(page);
-
-        // const blogs = [];
-        // const ref = fire.firestore().collection("blogs");
-        // ref.onSnapshot((querySnapshot) => {
-        //     const items = [];
-        //     querySnapshot.forEach((doc) => {
-        //         items.push(doc.data());
-        //     });
-        //     console.log(items);
-        //     dispatch({
-        //         type: BLOG_ACTIONS.GET_BLOGS_DATA,
-        //         payload: items,
-        //     });
-        // });
-
-        // const blogs = [];
-        // const res = fire.database().ref("Blog").orderByChild("category");
-        // res.on("value", (snapshot) => {
-        //     console.log(snapshot.val());
-        //     const todos = snapshot.val();
-        //     for (let id in todos) {
-        //         blogs.push({ id, ...todos[id] });
-        //     }
-        // });
-        // dispatch({
-        //     type: BLOG_ACTIONS.GET_BLOGS_DATA,
-        //     payload: blogs,
-        // });
-
-        getBlogsData();
-        setPage(page);
-    };
-
-    const [type, setType] = useState(getType());
-    const [price, setPrice] = useState(getPrice());
-
-    const [moneyFrom, setMoneyFrom] = useState(0);
-    const [moneyTo, setMoneyTo] = useState(20000);
-
-    function getType() {
-        const search = new URLSearchParams(history.location.search);
-        return search.get("category");
-    }
-
-    function getPrice() {
-        const search = new URLSearchParams(history.location.search);
-        return search.get("price_lte");
-    }
-
+    const [type, setType] = useState();
     const handleChangeType = (e) => {
         if (e.target.value == "all") {
-            // const search = new URLSearchParams(history.location.search);
-            // search.delete("category");
-            // search.set("_page", "1");
-            // setPage(1);
-            // history.push(`${history.location.pathname}?${search.toString()}}`);
-
             getBlogsData();
             setType(e.target.value);
         } else {
-            // const search = new URLSearchParams(history.location.search);
-            // search.set("category", e.target.value);
-            // search.set("_page", "1");
-            // setPage(1);
-            // history.push(`${history.location.pathname}?${search.toString()}`);
+            const ref = fire
+                .firestore()
+                .collection("blogs")
+                .where("brand", "==", e.target.value)
+                .limit(limit);
 
-            const blogs = [];
-            const ref = fire.firestore().collection("blogs");
             ref.onSnapshot((querySnapshot) => {
                 const items = [];
                 querySnapshot.forEach((doc) => {
                     items.push(doc.data());
                 });
-                let filteredBlogs = items.filter((blog) => {
-                    return blog.brand == e.target.value;
-                });
                 dispatch({
                     type: BLOG_ACTIONS.GET_BLOGS_DATA,
-                    payload: filteredBlogs,
+                    payload: items,
                 });
             });
-
-            // const blogs = [];
-            // const res = fire
-            //     .database()
-            //     .ref("Blog")
-            //     .orderByChild("category")
-            //     .limitToFirst(BLOG_LIMIT)
-            //     .equalTo(e.target.value);
-            // res.on("value", (snapshot) => {
-            //     console.log(snapshot.val());
-            //     const todos = snapshot.val();
-            //     for (let id in todos) {
-            //         blogs.push({ id, ...todos[id] });
-            //     }
-            // });
-            // dispatch({
-            //     type: BLOG_ACTIONS.GET_BLOGS_DATA,
-            //     payload: blogs,
-            // });
-
-            // getBlogsData();
-            // setType(e.target.value);
         }
-    };
-
-    // let adminsBlogs = [];
-    // let usersBlogs = [];
-    // blogs.map((blog) => {
-    //     if (blog.isAdminWrote) {
-    //         adminsBlogs.push(blog);
-    //     } else {
-    //         usersBlogs.push(blog);
-    //     }
-    // });
-    const handleValue = (e) => {
-        getBlogsData();
     };
 
     const handleChangeSort = (e) => {
