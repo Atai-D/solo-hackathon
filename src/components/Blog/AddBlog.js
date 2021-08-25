@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useBlog } from "../../contexts/BlogContext";
-import { CATEGORIES } from "../../helpers/consts";
+import { BRANDS, TYPES } from "../../helpers/consts";
 
 const useStyles = makeStyles({
     inp: {
@@ -32,11 +32,20 @@ const AddBlog = () => {
         blogPrice,
         setBlogPrice,
         addBlog,
+        blogType,
+        setBlogType,
     } = useBlog();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        addBlog(blogTitle, blogImage, blogText, blogPrice, blogCategory);
+        addBlog(
+            blogTitle,
+            blogImage,
+            blogText,
+            blogPrice,
+            blogCategory,
+            blogType
+        );
         setBlogTitle("");
         setBlogImage("");
         setBlogText("");
@@ -88,7 +97,7 @@ const AddBlog = () => {
                             name="price"
                             variant="outlined"
                             required
-                            label="Average Price (KG)"
+                            label="Price (RUB)"
                             type="number"
                             value={blogPrice}
                             onChange={(e) => setBlogPrice(e.target.value)}
@@ -115,13 +124,34 @@ const AddBlog = () => {
                             select
                             required
                             label="Select"
+                            value={blogType}
+                            onChange={(e) => setBlogType(e.target.value)}
+                            variant="outlined"
+                            className={classes.inp}
+                        >
+                            {TYPES.map((option) => (
+                                <MenuItem
+                                    key={option.value}
+                                    value={option.value}
+                                >
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                        <br />
+                        <TextField
+                            fullWidth={720}
+                            name="category"
+                            id="outlined-select-currency"
+                            select
+                            required
+                            label="Select"
                             value={blogCategory}
                             onChange={(e) => setBlogCategory(e.target.value)}
                             variant="outlined"
                             className={classes.inp}
-                            // style={{ color: "#00aeff", fontFamily: "nunito" }}
                         >
-                            {CATEGORIES.map((option) => (
+                            {BRANDS.map((option) => (
                                 <MenuItem
                                     key={option.value}
                                     value={option.value}

@@ -97,7 +97,7 @@ const CartCard = ({ blog }) => {
                         Remove
                     </Button>
                 </TableCell>
-                <TableCell align="right">&#x24;{blog.subPrice}</TableCell>
+                <TableCell align="right">{blog.subPrice}&#8381;</TableCell>
             </TableRow>
             {/* <TableRow key={blog.id}>
             <TableCell>

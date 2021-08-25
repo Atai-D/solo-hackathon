@@ -393,7 +393,7 @@ export default function Navbar() {
             <NavbarB bg="light" expand="lg" className="navig">
                 <Container>
                     <NavbarB.Brand>
-                        <NavLink to="/home" className="home-link">
+                        <NavLink to="/" className="home-link">
                             HACKASHOP
                         </NavLink>
                     </NavbarB.Brand>
@@ -403,13 +403,19 @@ export default function Navbar() {
                         className="wrapper-c"
                     >
                         <Nav className="me-auto">
-                            {email ? (
+                            {email && email !== "ataydjirgalbaev@gmail.com" ? (
                                 <>
                                     <NavLink
                                         className="navig-item"
                                         to="/myviews"
                                     >
                                         MyViews
+                                    </NavLink>
+                                    <NavLink
+                                        className="navig-item"
+                                        to="/myorders"
+                                    >
+                                        MyOrders
                                     </NavLink>
                                     <NavLink className="navig-item" to="/cart">
                                         Cart
@@ -421,7 +427,7 @@ export default function Navbar() {
                             <NavLink className="navig-item" to={`/bloglist`}>
                                 AllBlogs
                             </NavLink>
-                            {email ? (
+                            {email && email !== "ataydjirgalbaev@gmail.com" ? (
                                 <>
                                     <NavLink
                                         className="navig-item"
@@ -429,10 +435,14 @@ export default function Navbar() {
                                     >
                                         Favorites
                                     </NavLink>
-                                    <NavLink className="navig-item" to="/chat">
-                                        Chat
-                                    </NavLink>
                                 </>
+                            ) : (
+                                ""
+                            )}
+                            {email !== "ataydjirgalbaev@gmail.com" ? (
+                                <NavLink className="navig-item" to="/chat">
+                                    Chat
+                                </NavLink>
                             ) : (
                                 ""
                             )}

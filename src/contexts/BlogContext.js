@@ -4,7 +4,8 @@ import React, { createContext, useContext, useReducer, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
     BLOG_ACTIONS,
-    CATEGORIES,
+    BRANDS,
+    TYPES,
     JSON_API_BLOGS,
     JSON_API_USERS,
     BLOG_LIMIT,
@@ -14,6 +15,7 @@ import {
 import { useAuth } from "./AuthorizationContext";
 import fire from "../components/firebase/firebase";
 import { v4 as uuidv4 } from "uuid";
+import firebase from "firebase/app";
 
 const BlogContext = createContext();
 
@@ -30,7 +32,8 @@ const BlogContextProvider = ({ children }) => {
     const [blogImage, setBlogImage] = useState("");
     const [blogText, setBlogText] = useState("");
     const [blogPrice, setBlogPrice] = useState("");
-    const [blogCategory, setBlogCategory] = useState(CATEGORIES[0].value);
+    const [blogCategory, setBlogCategory] = useState(BRANDS[0].value);
+    const [blogType, setBlogType] = useState(TYPES[0].value);
     const [promoted, setPromoted] = useState("");
     const [isPromoted, setIsPromoted] = useState(false);
 
@@ -173,16 +176,16 @@ const BlogContextProvider = ({ children }) => {
         // });
     };
 
-    const addBlog = async (title, image, text, price, category) => {
+    const addBlog = async (title, image, text, price, category, type) => {
         const ref = fire.firestore().collection("blogs");
-        const date = Date.now();
         let newBlog = {
             title: title,
             image: image,
             text: text,
-            date: date,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             price: +price,
-            category: category,
+            brand: category,
+            type: type,
             usersLikes: [],
             comments: [],
             id: uuidv4(),
@@ -686,7 +689,7 @@ const BlogContextProvider = ({ children }) => {
         // }
         // });
         ref.doc(newUser.id)
-            .update(newUser)
+            .set(newUser)
             .catch((err) => {
                 console.log(err);
             });
@@ -745,6 +748,8 @@ const BlogContextProvider = ({ children }) => {
         setLimit,
         limit,
         addBlogToFavorites,
+        blogType,
+        setBlogType,
     };
     return (
         <BlogContext.Provider value={value}>{children}</BlogContext.Provider>

@@ -3,21 +3,45 @@ export const JSON_API_BLOGS = "http://localhost:8000/blogs";
 
 export const BLOG_LIMIT = 4;
 
-export const CATEGORIES = [
+export const BRANDS = [
     {
-        value: "art&culture",
-        label: "Art & Culture",
-        to: `/bloglist?category=art&culture&_limit${BLOG_LIMIT}`,
+        value: "Sennheiser",
+        label: "Sennheiser",
     },
     {
-        value: "thingsToDo",
-        label: "Things To Do",
-        to: `/bloglist?category=thingsToDo&_limit${BLOG_LIMIT}`,
+        value: "Sony",
+        label: "Sony",
     },
     {
-        value: "food&drinks",
-        label: "Food & Dinks",
-        to: `/bloglist?category=food&drinks&_limit${BLOG_LIMIT}`,
+        value: "JBL",
+        label: "JBL",
+    },
+    {
+        value: "Beyerdynamic",
+        label: "Beyerdynamic",
+    },
+    {
+        value: "Xiaomi",
+        label: "Xiaomi",
+    },
+    {
+        value: "HyperX",
+        label: "HyperX",
+    },
+];
+
+export const TYPES = [
+    {
+        value: "In-Ear",
+        label: "In-Ear",
+    },
+    {
+        value: "On-Ear",
+        label: "On-Ear",
+    },
+    {
+        value: "Over-Ear",
+        label: "Over-Ear",
     },
 ];
 
