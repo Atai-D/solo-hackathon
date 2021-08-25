@@ -63,6 +63,7 @@ export default function BlogCard({ blog }) {
         addBlogToCart,
         addLike,
         addBlogToFavorites,
+        getBlogDetails,
         addProductToCart,
     } = useBlog();
 
@@ -76,6 +77,7 @@ export default function BlogCard({ blog }) {
         // console.log(id);
         setEditModal(true);
         setEdittingId(id);
+        getBlogDetails(id);
     };
 
     const handleCartBtn = (blog, authorId) => {
@@ -189,11 +191,11 @@ export default function BlogCard({ blog }) {
                                 ? blog?.comments?.length
                                 : 0}
                         </div>
-                        <div>Brand: {blog.category}</div>
+                        <div>Brand: {blog.brand}</div>
                         <h5>
                             Price:{" "}
                             <span style={{ color: "red" }}>
-                                &#x24;{blog.price}
+                                {blog.price}&#8381;
                             </span>
                         </h5>
                         <ul className="recipe-details">

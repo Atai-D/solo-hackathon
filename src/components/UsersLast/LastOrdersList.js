@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthorizationContext";
+import BlogCard from "../Blog/BlogCard";
 import FavoriteCard from "../Blog/FavoriteCard";
 import fire from "../firebase/firebase";
+import LastOrdersCard from "./LastOrdersCard";
 
 const LastOrdersList = () => {
     const {
@@ -22,9 +24,9 @@ const LastOrdersList = () => {
     return (
         <div className="fav-container">
             {lastOrders?.length > 0
-                ? lastOrders.map((blogsId) => (
-                      <FavoriteCard blogsId={blogsId} />
-                  ))
+                ? lastOrders.map((payment) => {
+                      return <LastOrdersCard payment={payment} />;
+                  })
                 : "Order something"}
         </div>
     );

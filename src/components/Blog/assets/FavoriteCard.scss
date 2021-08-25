@@ -113,6 +113,7 @@
 .big {
     width: clamp(320px, 65%, 65%);
     padding: 24px;
+    margin: 0 auto;
 }
 .small {
     width: clamp(320px, 35%, 480px);

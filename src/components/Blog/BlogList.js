@@ -13,7 +13,7 @@ import { green } from "@material-ui/core/colors";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useBlog } from "../../contexts/BlogContext";
-import { BLOG_ACTIONS, BLOG_LIMIT, CATEGORIES } from "../../helpers/consts";
+import { BLOG_ACTIONS, BLOG_LIMIT, BRANDS } from "../../helpers/consts";
 import BlogCard from "./BlogCard";
 import EditBlog from "./EditBlog";
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -76,8 +76,9 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: "20px",
         position: "absolute",
         zIndex: 100,
-        backgroundColor: "rgba(191, 224, 194,0.9)",
+        backgroundColor: "rgba(115,209,255,0.9)",
         borderRadius: "20px",
+        fontWeight: "bold",
     },
 }));
 
@@ -180,7 +181,7 @@ const BlogList = () => {
                     items.push(doc.data());
                 });
                 let filteredBlogs = items.filter((blog) => {
-                    return blog.category == e.target.value;
+                    return blog.brand == e.target.value;
                 });
                 dispatch({
                     type: BLOG_ACTIONS.GET_BLOGS_DATA,
@@ -269,7 +270,6 @@ const BlogList = () => {
         setLimit(limit + BLOG_LIMIT);
         getBlogsData(BLOG_LIMIT);
     };
-    console.log(limit);
 
     return (
         <>
@@ -277,12 +277,12 @@ const BlogList = () => {
                 <Button
                     onClick={() => setShowCategories(!showCategories)}
                     style={{
-                        color: "#8ab584",
+                        color: "#00aeff",
                         fontFamily: "nunito",
                         fontWeight: "bold",
                     }}
                 >
-                    Categories
+                    Brands & sort
                 </Button>
                 {showCategories ? (
                     <div className={classes.sideBar}>
@@ -291,7 +291,7 @@ const BlogList = () => {
                                 value={type}
                                 onChange={handleChangeType}
                             >
-                                {CATEGORIES.map((option) => (
+                                {BRANDS.map((option) => (
                                     <FormControlLabel
                                         value={option.value}
                                         control={
@@ -318,7 +318,7 @@ const BlogList = () => {
                                             name="radio-button-demo"
                                         />
                                     }
-                                    label="Reset category"
+                                    label="Reset brand"
                                 />
                             </RadioGroup>
                         </FormControl>
@@ -411,7 +411,7 @@ const BlogList = () => {
                                             .includes(
                                                 searchBar.toLowerCase()
                                             ) ||
-                                        val.category
+                                        val.brand
                                             .toLowerCase()
                                             .includes(searchBar.toLowerCase())
                                     ) {

@@ -20,11 +20,16 @@ const LastViewsList = () => {
         setLastViews(newUser.lastViews);
     }, []);
     return (
-        <div className="fav-container">
-            {lastViews?.length > 0
-                ? lastViews.map((blogsId) => <FavoriteCard blogsId={blogsId} />)
-                : "Check some products"}
-        </div>
+        <>
+            <h1 style={{ margin: "auto" }}>My Last Viewed Products:</h1>
+            <div className="fav-container">
+                {lastViews?.length > 0
+                    ? lastViews.map((blogsId) => (
+                          <FavoriteCard blogsId={blogsId} />
+                      ))
+                    : "Check some products"}
+            </div>
+        </>
     );
 };
 

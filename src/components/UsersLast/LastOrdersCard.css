@@ -1,0 +1,17 @@
+.order-container {
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid black;
+    margin: 20px auto;
+}
+
+.subPrice {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    color: red;
+}
+
+.wrapper {
+    position: relative;
+}

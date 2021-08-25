@@ -95,7 +95,7 @@ const Cart = () => {
                                         variant="h5"
                                         style={{ color: "#00aeff" }}
                                     >
-                                        &#x24;{cart.totalPrice}
+                                        {cart.totalPrice}&#8381;
                                         <Button onClick={handlePayBtn}>
                                             <PaymentIcon
                                                 style={{

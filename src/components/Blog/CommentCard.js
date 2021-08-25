@@ -30,15 +30,14 @@ const CommentCard = ({ comment, blogDetails, id }) => {
     };
     return (
         <div style={{ marginBottom: "30px" }}>
-            <div>
-                <em>{comment.author}</em>
-            </div>
+            <h5>
+                <em style={{ color: "red" }}>{comment.author}</em>
+            </h5>
             {openEditInp ? (
                 <>
                     <input
                         value={editInp}
                         onChange={(e) => setEditInp(e.target.value)}
-                        style={{ backgroundColor: "#f0ed90" }}
                     />
                     <Button onClick={handleEditComment}>
                         <EditIcon
@@ -51,7 +50,7 @@ const CommentCard = ({ comment, blogDetails, id }) => {
                     <br />
                 </>
             ) : (
-                <div>{comment.comment}</div>
+                <h5>{comment.comment}</h5>
             )}
             {comment.author === email ||
             email === "ataydjirgalbaev@gmail.com" ? (

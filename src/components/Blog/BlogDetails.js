@@ -8,7 +8,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useBlog } from "../../contexts/BlogContext";
 import { Button, Grid } from "@material-ui/core";
 import EditBlog from "./EditBlog";
@@ -21,6 +21,10 @@ import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import fire from "../firebase/firebase";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
+import { formatRelative } from "date-fns";
+import BlogCard from "./BlogCard";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,6 +50,19 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         backgroundColor: red[500],
     },
+    btn: {
+        cursor: "pointer",
+        marginRight: "40px",
+    },
+    center: {
+        maxWidth: "300px",
+        margin: "0 auto",
+    },
+    recCont: {
+        display: "flex",
+        justifyContent: "center",
+        flexWrap: "wrap",
+    },
 }));
 
 export default function BlogDetails() {
@@ -68,7 +85,10 @@ export default function BlogDetails() {
         history,
         addComment,
         addBlogToFavorites,
+        addBlogToCart,
     } = useBlog();
+    const [activeCart, setActiveCart] = useState(false);
+    const [recomendations, setRecomendations] = useState([]);
 
     useEffect(() => {
         setEdittingId(id);
@@ -76,6 +96,20 @@ export default function BlogDetails() {
         checkLikes();
         checkFav();
         addBlogToLastViews();
+        checkCart();
+        const ref = fire
+            .firestore()
+            .collection("blogs")
+            .where("brand", "==", blogDetails?.brand)
+            .limit(3);
+
+        ref.onSnapshot((querySnapshot) => {
+            const items = [];
+            querySnapshot.forEach((doc) => {
+                items.push(doc.data());
+            });
+            setRecomendations(items);
+        });
     }, []);
 
     const handleDeleteBtn = (id) => {
@@ -136,9 +170,9 @@ export default function BlogDetails() {
                 newUser = doc.data();
             }
         });
-        const idToFind = newUser?.favorites?.filter(
-            (blogsId) => blogsId === blogDetails.id
-        );
+        const idToFind = newUser?.favorites?.filter((blogsId) => {
+            return blogsId === blogDetails.id;
+        });
         if (idToFind?.length === 0) {
             setActiveFav(false);
         } else {
@@ -173,196 +207,394 @@ export default function BlogDetails() {
         getBlogDetails(id);
         setCommentInp("");
     };
+
+    const checkCart = () => {
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        const idToFind = cart?.blogs?.filter(
+            (cartBlog) => cartBlog.item.id === blogDetails.id
+        );
+        if (idToFind?.length === 0) {
+            setActiveCart(false);
+        } else {
+            setActiveCart(true);
+        }
+    };
+    console.log(blogDetails.brand);
+    const handleCartBtn = (blog) => {
+        addBlogToCart(blog);
+        checkCart();
+    };
     return (
-        <div style={{ overflowX: "hidden" }}>
-            {blogDetails ? (
-                <Grid
-                    container
-                    spacing={10}
-                    style={{
-                        margin: "20px 0",
-                        padding: "40px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "100vw",
-                    }}
-                >
-                    <Card className={classes.root}>
-                        <CardHeader
-                            title={blogDetails.title}
-                            subheader={new Date(
-                                blogDetails?.date
-                            ).toUTCString()}
+        <>
+            <div className="big" style={{ margin: "0 auto" }}>
+                <article className="recipe">
+                    <div className="pizza-box">
+                        <img
+                            src={blogDetails?.image}
+                            width="1500"
+                            height="1368"
+                            alt={blogDetails?.title}
                         />
-                        <CardMedia
-                            className={classes.media}
-                            image={blogDetails.image}
-                            title="Paella dish"
-                        />
-                        <CardActions style={{ marginLeft: "25px" }}>
-                            <h5>
+                    </div>
+                    <div className="recipe-content">
+                        <h1 className="recipe-title">{blogDetails?.title}</h1>
+
+                        <p className="recipe-metadata">
+                            {blogDetails?.createdAt?.seconds ? (
+                                <span>
+                                    {formatRelative(
+                                        new Date(
+                                            blogDetails.createdAt.seconds * 1000
+                                        ),
+                                        new Date()
+                                    )}
+                                </span>
+                            ) : (
+                                ""
+                            )}
+                            <p>
                                 likes:{" "}
                                 {blogDetails?.usersLikes?.length
                                     ? blogDetails?.usersLikes?.length
                                     : 0}
-                            </h5>
-                            {email ? (
-                                <>
-                                    {!activeLike ? (
-                                        <FavoriteBorderIcon
-                                            color="#fff"
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => handleLikeBtn()}
-                                        />
-                                    ) : (
-                                        <FavoriteIcon
-                                            color="#fff"
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => handleLikeBtn()}
-                                        />
-                                    )}
-                                    {!activeFav ? (
-                                        <BookmarkBorderIcon
-                                            color="#fff"
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                handleFavBtn(blogDetails)
-                                            }
-                                        />
-                                    ) : (
-                                        <BookmarkIcon
-                                            color="#fff"
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                handleFavBtn(blogDetails)
-                                            }
-                                        />
-                                    )}
-                                </>
-                            ) : (
-                                ""
-                            )}
-                            {email == "ataydjirgalbaev@gmail.com" ? (
-                                <>
-                                    <Button
-                                        size="small"
-                                        color="primary"
-                                        onClick={() => handleDeleteBtn(id)}
-                                    >
-                                        <DeleteIcon />
-                                    </Button>
-                                    <Button
-                                        size="small"
-                                        color="primary"
-                                        onClick={() => handleEditBtn(id)}
-                                    >
-                                        <EditIcon />
-                                    </Button>
-                                    <div>
-                                        <EditBlog />
-                                    </div>
-                                </>
-                            ) : (
-                                ""
-                            )}
-                        </CardActions>
-                        <CardContent style={{ marginLeft: "20px" }}>
-                            <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                            >
-                                {blogDetails.text}
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                            >
-                                Price: {blogDetails.price} KG
-                            </Typography>
-                            <Typography
-                                variant="body1"
-                                color="textSecondary"
-                                component="p"
-                            >
-                                Category: {blogDetails.category}
-                            </Typography>
-                            <Typography
-                                variant="body1"
-                                color="textSecondary"
-                                component="p"
-                            >
-                                {/* {blogDetails.priority == 2 ? (
-                                    <em style={{ color: "red" }}>
-                                        RECOMENDED BY B-BBLOG
-                                    </em>
-                                ) : blogDetails.priority == 3 ? (
-                                    <>
-                                        <em style={{ color: "red" }}>
-                                            Автор:{blogDetails.author}
-                                        </em>
-                                        <br />
-                                        <em style={{ color: "red" }}>
-                                            RECOMENDED BY B-BBLOG
-                                        </em>
-                                    </>
-                                ) : (
-                                    <em> Автор:{blogDetails.author}</em>
-                                )} */}
-                            </Typography>
-                        </CardContent>
-                        <div style={{ marginLeft: "40px" }}>
-                            {email ? (
-                                <Button onClick={handleOpenComment}>
-                                    Add Comment
+                                <br />
+                                comments:{" "}
+                                {blogDetails?.comments?.length
+                                    ? blogDetails?.comments?.length
+                                    : 0}
+                            </p>
+                            <h4>Price: {blogDetails.price}&#8381;</h4>
+                            <p>
+                                Brand: {blogDetails.brand}
+                                <br />
+                                Type: {blogDetails.type}
+                            </p>
+                        </p>
+
+                        <p className="recipe-desc">{blogDetails.text}</p>
+
+                        {email == "ataydjirgalbaev@gmail.com" ? (
+                            <>
+                                <Button
+                                    size="small"
+                                    color="primary"
+                                    onClick={() => handleDeleteBtn(id)}
+                                    className={classes.btn}
+                                >
+                                    <DeleteIcon />
                                 </Button>
-                            ) : (
-                                ""
-                            )}
-                            <br />
-                            {openInp ? (
-                                <>
-                                    <input
-                                        type="text"
-                                        value={commentInp}
-                                        style={{ backgroundColor: "#f0ed90" }}
-                                        onChange={(e) =>
-                                            setCommentInp(e.target.value)
+                                <Button
+                                    size="small"
+                                    color="primary"
+                                    onClick={() => handleEditBtn(id)}
+                                    className={classes.btn}
+                                >
+                                    <EditIcon />
+                                </Button>
+                                <div>
+                                    <EditBlog />
+                                </div>
+                            </>
+                        ) : email ? (
+                            <>
+                                {!activeLike ? (
+                                    <FavoriteBorderIcon
+                                        color="#fff"
+                                        className={classes.btn}
+                                        onClick={() => handleLikeBtn()}
+                                    />
+                                ) : (
+                                    <FavoriteIcon
+                                        color="#fff"
+                                        className={classes.btn}
+                                        onClick={() => handleLikeBtn()}
+                                    />
+                                )}
+                                {!activeFav ? (
+                                    <BookmarkBorderIcon
+                                        color="#fff"
+                                        className={classes.btn}
+                                        onClick={() =>
+                                            handleFavBtn(blogDetails)
                                         }
                                     />
-                                    <Button onClick={handleSendComment}>
-                                        <SendIcon
-                                            style={{
-                                                width: "20px",
-                                                height: "20px",
-                                            }}
-                                        />
-                                    </Button>
-                                </>
-                            ) : (
-                                ""
-                            )}
-                            {blogDetails?.comments?.length > 0 ? (
-                                blogDetails.comments.map((comment) => (
-                                    <CommentCard
-                                        comment={comment}
-                                        blogDetails={blogDetails}
-                                        id={id}
+                                ) : (
+                                    <BookmarkIcon
+                                        color="#fff"
+                                        className={classes.btn}
+                                        onClick={() =>
+                                            handleFavBtn(blogDetails)
+                                        }
                                     />
-                                ))
-                            ) : (
-                                <>
-                                    <div>Здесь нет комментариев</div>
-                                </>
-                            )}
+                                )}
+                                {!activeCart ? (
+                                    <ShoppingCartOutlinedIcon
+                                        color="#fff"
+                                        className={classes.btn}
+                                        onClick={() =>
+                                            handleCartBtn(blogDetails)
+                                        }
+                                    />
+                                ) : (
+                                    <ShoppingCartIcon
+                                        color="#fff"
+                                        className={classes.btn}
+                                        onClick={() =>
+                                            handleCartBtn(blogDetails)
+                                        }
+                                    />
+                                )}
+                            </>
+                        ) : (
+                            ""
+                        )}
+                    </div>
+                </article>
+            </div>
+            <div>
+                {email ? (
+                    <div className={classes.center}>
+                        <Button
+                            onClick={handleOpenComment}
+                            style={{ fontSize: "20px" }}
+                        >
+                            Add Comment
+                        </Button>
+                    </div>
+                ) : (
+                    ""
+                )}
+                {openInp ? (
+                    <div className={classes.center}>
+                        <input
+                            type="text"
+                            value={commentInp}
+                            onChange={(e) => setCommentInp(e.target.value)}
+                        />
+                        <Button onClick={handleSendComment}>
+                            <SendIcon
+                                style={{
+                                    width: "20px",
+                                    height: "20px",
+                                }}
+                            />
+                        </Button>
+                    </div>
+                ) : (
+                    ""
+                )}
+                {blogDetails?.comments?.length > 0 ? (
+                    blogDetails.comments.map((comment) => (
+                        <div className={classes.center}>
+                            <CommentCard
+                                comment={comment}
+                                blogDetails={blogDetails}
+                                id={id}
+                            />
                         </div>
-                    </Card>
-                </Grid>
-            ) : (
-                ""
-            )}
-        </div>
+                    ))
+                ) : (
+                    <>
+                        <h2 className={classes.center}>There is no comments</h2>
+                    </>
+                )}
+            </div>
+            <h2>RECOMENDATIONS:</h2>
+            <div className={classes.recCont}>
+                {recomendations?.length > 0
+                    ? recomendations.map((blog) => <BlogCard blog={blog} />)
+                    : ""}
+            </div>
+        </>
+        // <div style={{ overflowX: "hidden" }}>
+        //     {blogDetails ? (
+        //         <Grid
+        //             container
+        //             spacing={10}
+        //             style={{
+        //                 margin: "20px 0",
+        //                 padding: "40px",
+        //                 display: "flex",
+        //                 justifyContent: "center",
+        //                 alignItems: "center",
+        //                 width: "100vw",
+        //             }}
+        //         >
+        //             <Card className={classes.root}>
+        //                 <CardHeader
+        //                     title={blogDetails.title}
+        //                     subheader={new Date(
+        //                         blogDetails?.date
+        //                     ).toUTCString()}
+        //                 />
+        //                 <CardMedia
+        //                     className={classes.media}
+        //                     image={blogDetails.image}
+        //                     title="Paella dish"
+        //                 />
+        //                 <CardActions style={{ marginLeft: "25px" }}>
+        //                     <h5>
+        //                         likes:{" "}
+        //                         {blogDetails?.usersLikes?.length
+        //                             ? blogDetails?.usersLikes?.length
+        //                             : 0}
+        //                     </h5>
+        //                     {email ? (
+        //                         <>
+        //                             {!activeLike ? (
+        //                                 <FavoriteBorderIcon
+        //                                     color="#fff"
+        //                                     style={{ cursor: "pointer" }}
+        //                                     onClick={() => handleLikeBtn()}
+        //                                 />
+        //                             ) : (
+        //                                 <FavoriteIcon
+        //                                     color="#fff"
+        //                                     style={{ cursor: "pointer" }}
+        //                                     onClick={() => handleLikeBtn()}
+        //                                 />
+        //                             )}
+        //                             {!activeFav ? (
+        //                                 <BookmarkBorderIcon
+        //                                     color="#fff"
+        //                                     style={{ cursor: "pointer" }}
+        //                                     onClick={() =>
+        //                                         handleFavBtn(blogDetails)
+        //                                     }
+        //                                 />
+        //                             ) : (
+        //                                 <BookmarkIcon
+        //                                     color="#fff"
+        //                                     style={{ cursor: "pointer" }}
+        //                                     onClick={() =>
+        //                                         handleFavBtn(blogDetails)
+        //                                     }
+        //                                 />
+        //                             )}
+        //                         </>
+        //                     ) : (
+        //                         ""
+        //                     )}
+        //                     {email == "ataydjirgalbaev@gmail.com" ? (
+        //                         <>
+        //                             <Button
+        //                                 size="small"
+        //                                 color="primary"
+        //                                 onClick={() => handleDeleteBtn(id)}
+        //                             >
+        //                                 <DeleteIcon />
+        //                             </Button>
+        //                             <Button
+        //                                 size="small"
+        //                                 color="primary"
+        //                                 onClick={() => handleEditBtn(id)}
+        //                             >
+        //                                 <EditIcon />
+        //                             </Button>
+        //                             <div>
+        //                                 <EditBlog />
+        //                             </div>
+        //                         </>
+        //                     ) : (
+        //                         ""
+        //                     )}
+        //                 </CardActions>
+        //                 <CardContent style={{ marginLeft: "20px" }}>
+        //                     <Typography
+        //                         variant="body2"
+        //                         color="textSecondary"
+        //                         component="p"
+        //                     >
+        //                         {blogDetails.text}
+        //                     </Typography>
+        //                     <Typography
+        //                         variant="body2"
+        //                         color="textSecondary"
+        //                         component="p"
+        //                     >
+        //                         Price: {blogDetails.price} KG
+        //                     </Typography>
+        //                     <Typography
+        //                         variant="body1"
+        //                         color="textSecondary"
+        //                         component="p"
+        //                     >
+        //                         Category: {blogDetails.brand}
+        //                     </Typography>
+        //                     <Typography
+        //                         variant="body1"
+        //                         color="textSecondary"
+        //                         component="p"
+        //                     >
+        //                         {/* {blogDetails.priority == 2 ? (
+        //                             <em style={{ color: "red" }}>
+        //                                 RECOMENDED BY B-BBLOG
+        //                             </em>
+        //                         ) : blogDetails.priority == 3 ? (
+        //                             <>
+        //                                 <em style={{ color: "red" }}>
+        //                                     Автор:{blogDetails.author}
+        //                                 </em>
+        //                                 <br />
+        //                                 <em style={{ color: "red" }}>
+        //                                     RECOMENDED BY B-BBLOG
+        //                                 </em>
+        //                             </>
+        //                         ) : (
+        //                             <em> Автор:{blogDetails.author}</em>
+        //                         )} */}
+        //                     </Typography>
+        //                 </CardContent>
+        //                 <div style={{ marginLeft: "40px" }}>
+        //                     {email ? (
+        //                         <Button onClick={handleOpenComment}>
+        //                             Add Comment
+        //                         </Button>
+        //                     ) : (
+        //                         ""
+        //                     )}
+        //                     <br />
+        //                     {openInp ? (
+        //                         <>
+        //                             <input
+        //                                 type="text"
+        //                                 value={commentInp}
+        //                                 style={{ backgroundColor: "#f0ed90" }}
+        //                                 onChange={(e) =>
+        //                                     setCommentInp(e.target.value)
+        //                                 }
+        //                             />
+        //                             <Button onClick={handleSendComment}>
+        //                                 <SendIcon
+        //                                     style={{
+        //                                         width: "20px",
+        //                                         height: "20px",
+        //                                     }}
+        //                                 />
+        //                             </Button>
+        //                         </>
+        //                     ) : (
+        //                         ""
+        //                     )}
+        //                     {blogDetails?.comments?.length > 0 ? (
+        //                         blogDetails.comments.map((comment) => (
+        //                             <CommentCard
+        //                                 comment={comment}
+        //                                 blogDetails={blogDetails}
+        //                                 id={id}
+        //                             />
+        //                         ))
+        //                     ) : (
+        //                         <>
+        //                             <div>Здесь нет комментариев</div>
+        //                         </>
+        //                     )}
+        //                 </div>
+        //             </Card>
+        //         </Grid>
+        //     ) : (
+        //         ""
+        //     )}
+        // </div>
     );
 }

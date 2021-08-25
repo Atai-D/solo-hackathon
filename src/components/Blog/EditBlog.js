@@ -13,7 +13,7 @@ import { useAutho } from "../../contexts/AuthorizationContext";
 import { useBlog } from "../../contexts/BlogContext";
 import {
     BLOG_ACTIONS,
-    CATEGORIES,
+    BRANDS,
     JSON_API_BLOGS,
     JSON_API_USERS,
 } from "../../helpers/consts";
@@ -29,7 +29,7 @@ const EditBlog = () => {
     } = useBlog();
 
     const [blog, setBlog] = useState(blogDetails);
-    const [editCategory, setEditCategory] = useState(CATEGORIES[0].value);
+    const [editCategory, setEditCategory] = useState(BRANDS[0].value);
 
     const handleInp = (e) => {
         let obj = {
@@ -60,7 +60,7 @@ const EditBlog = () => {
             onHide={() => {
                 setEditModal(false);
             }}
-            style={{ color: "#bfe0c2", zIndex: "10000" }}
+            style={{ color: "#00aeff", zIndex: "10000" }}
             aria-labelledby="example-modal-sizes-title-lg"
         >
             <Modal.Header closeButton>
@@ -106,6 +106,15 @@ const EditBlog = () => {
                                     cols={5}
                                     variant="outlined"
                                     value={blog.text}
+                                    onChange={handleInp}
+                                />
+                                <TextField
+                                    name="price"
+                                    variant="outlined"
+                                    required
+                                    label="Price (RUB)"
+                                    type="number"
+                                    value={blog.price}
                                     onChange={handleInp}
                                 />
                             </Grid>
