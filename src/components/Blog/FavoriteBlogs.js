@@ -25,13 +25,6 @@ const FavoriteBlogs = () => {
     }, []);
     return (
         <div className="fav-container">
-            {/* <div class="slideshow-buttons">
-                    <div class="one"></div>
-                    <div class="two"></div>
-                    <div class="three"></div>
-                    <div class="four"></div>
-                </div> */}
-
             {favorites?.length > 0 ? (
                 favorites?.map((id) => <FavoriteCard key={id} blogsId={id} />)
             ) : (

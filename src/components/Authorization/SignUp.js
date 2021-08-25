@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAuth } from "../../contexts/AuthorizationContext";
 import "./SignUp.css";
 
 const Login = () => {
     const {
         email,
-        // user: { email: usersEmail },
-        handleLogout,
         setEmail,
         password,
         setPassword,
@@ -18,7 +16,6 @@ const Login = () => {
         passwordError,
         resetPassword,
         showReset,
-        setShowReset,
         showPasswordField,
         setShowPasswordField,
     } = useAuth();

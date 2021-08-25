@@ -6,7 +6,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import { useAuth } from "../../contexts/AuthorizationContext";
 
 const CommentCard = ({ comment, blogDetails, id }) => {
-    // console.log(comment);
     const [openEditInp, setOpenEditInp] = useState(false);
     const [editInp, setEditInp] = useState("");
     const { addComment, deleteComment, editComment, getBlogDetails } =
@@ -25,7 +24,6 @@ const CommentCard = ({ comment, blogDetails, id }) => {
 
     const handleEditComment = () => {
         editComment(comment, blogDetails, editInp, id);
-        // console.log(blogDetails);
         setOpenEditInp(!openEditInp);
     };
     return (

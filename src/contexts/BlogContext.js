@@ -1,13 +1,9 @@
-import { AssignmentInd } from "@material-ui/icons";
-import axios from "axios";
 import React, { createContext, useContext, useReducer, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
     BLOG_ACTIONS,
     BRANDS,
     TYPES,
-    JSON_API_BLOGS,
-    JSON_API_USERS,
     BLOG_LIMIT,
     calcTotalPrice,
     calcSubPrice,
@@ -57,7 +53,6 @@ const BlogContextProvider = ({ children }) => {
     const reduce = (state = INIT_STATE, action) => {
         switch (action.type) {
             case BLOG_ACTIONS.GET_BLOGS_DATA:
-                // console.log(action.payload.length);
                 return {
                     ...state,
                     blogs: action.payload,
@@ -97,41 +92,18 @@ const BlogContextProvider = ({ children }) => {
             .doc(id)
             .get()
             .then((snapshot) => {
-                // console.log(snapshot.data());
                 detailsBlog = snapshot.data();
             })
             .catch((err) => {
                 console.log(err);
             });
-        // console.log(detailsBlog);
         dispatch({
             type: BLOG_ACTIONS.GET_BLOG_DETAILS,
             payload: detailsBlog,
         });
-        ////////////////////////////////////////////////
-
-        // const todoRef = await fire.database().ref("Blog").child(id);
-
-        // let detailsBlog = {};
-        // todoRef.on("value", (snapshot) => {
-        //     const todos = snapshot.val();
-        //     for (let id in todos) {
-        //         detailsBlog = { ...detailsBlog, [id]: todos[id] };
-        //     }
-        // });
-        // dispatch({
-        //     type: BLOG_ACTIONS.GET_BLOG_DETAILS,
-        //     payload: detailsBlog,
-        // });
     };
 
     const getBlogsData = (tempLimit = 0) => {
-        // const search = new URLSearchParams(history.location.search);
-        // search.set("_limit", BLOG_LIMIT);
-        // search.set("_sort", "priority");
-        // search.set("_order", "desc");
-        // history.push(`${history.location.pathname}?${search.toString()}`);
-
         const ref = fire
             .firestore()
             .collection("blogs")
@@ -148,32 +120,6 @@ const BlogContextProvider = ({ children }) => {
                 payload: items,
             });
         });
-
-        /////////////////////////////////
-        // const blogs = [];
-        // const res = fire.database().ref("Blog").limitToFirst(BLOG_LIMIT);
-        // res.on("value", (snapshot) => {
-        //     const todos = snapshot.val();
-        //     for (let id in todos) {
-        //         blogs.push({ id, ...todos[id] });
-        //     }
-        // });
-        // dispatch({
-        //     type: BLOG_ACTIONS.GET_BLOGS_DATA,
-        //     payload: blogs,
-        // });
-        // const tempBlogs = [];
-        // const resol = fire.database().ref("Blog");
-        // resol.on("value", (snapshot) => {
-        //     const todos = snapshot.val();
-        //     for (let id in todos) {
-        //         tempBlogs.push({ id, ...todos[id] });
-        //     }
-        // });
-        // dispatch({
-        //     type: BLOG_ACTIONS.GET_PAGES,
-        //     payload: tempBlogs,
-        // });
     };
 
     const addBlog = async (title, image, text, price, category, type) => {
@@ -190,28 +136,11 @@ const BlogContextProvider = ({ children }) => {
             comments: [],
             id: uuidv4(),
         };
-        // console.log(newBlog.id);
         ref.doc(newBlog.id)
             .set(newBlog)
             .catch((err) => {
                 console.log(err);
             });
-
-        ////////////////////////////////////
-
-        // const date = Date.now();
-        // const blogRef = fire.database().ref("Blog");
-        // let newBlog = {
-        //     title: title,
-        //     image: image,
-        //     text: text,
-        //     date: date,
-        //     price: +price,
-        //     usersLikes: [],
-        //     comments: [],
-        // };
-        // blogRef.push(newBlog);
-        // alert("Ваш блог успешно опубликован");
     };
 
     const deleteBlog = (id) => {
@@ -221,11 +150,6 @@ const BlogContextProvider = ({ children }) => {
             .catch((err) => {
                 console.log(err);
             });
-        // console.log(id);
-        // const todoRef = fire.database().ref("Blog").child(id);
-        // console.log(todoRef);
-        // todoRef.remove();
-        // getBlogsData();
     };
 
     const deleteBlogDetails = () => {
@@ -239,15 +163,11 @@ const BlogContextProvider = ({ children }) => {
 
     const saveEditBlog = (editedBlog, edittingId) => {
         const ref = fire.firestore().collection("blogs");
-        // console.log(editedBlog.id);
         ref.doc(editedBlog.id)
             .update(editedBlog)
             .catch((err) => {
                 console.log(err);
             });
-        // const todoRef = await fire.database().ref("Blog").child(edittingId);
-        // todoRef.update(editedBlog);
-        // getBlogsData();
         getBlogDetails(editedBlog.id);
     };
 
@@ -319,91 +239,6 @@ const BlogContextProvider = ({ children }) => {
         });
     };
 
-    // const getCart = () => {
-    //     let cart = JSON.parse(localStorage.getItem("cart"));
-    //     if (!cart) {
-    //         localStorage.setItem(
-    //             "cart",
-    //             JSON.stringify({
-    //                 blogs: [],
-    //                 totalPrice: 0,
-    //             })
-    //         );
-    //         cart = {
-    //             blogs: [],
-    //             totalPrice: 0,
-    //         };
-    //     }
-    //     dispatch({
-    //         type: BLOG_ACTIONS.GET_CART,
-    //         payload: cart,
-    //     });
-    // };
-
-    // const addBlogToCart = (blog) => {
-    //     let cart = JSON.parse(localStorage.getItem("cart"));
-    //     if (!cart) {
-    //         cart = {
-    //             blogs: [],
-    //             totalPrice: 0,
-    //         };
-    //     }
-    //     let newBlog = {
-    //         ...blog,
-    //         count: 1,
-    //         subPrice: +blog.price,
-    //     };
-
-    //     // console.log(blog);
-
-    //     let blogToFind = cart.blogs.filter((item) => item.id === blog.id);
-    //     if (blogToFind.length == 0) {
-    //         cart.blogs.push(newBlog);
-    //     } else {
-    //         cart.blogs = cart.blogs.filter((item) => item.id !== blog.id);
-    //     }
-    //     cart.totalPrice = calcTotalPrice(cart.blogs);
-    //     localStorage.setItem("cart", JSON.stringify(cart));
-    //     dispatch({
-    //         type: BLOG_ACTIONS.GET_CART,
-    //         payload: cart,
-    //     });
-    // };
-
-    // const changeBlogCount = (days, id) => {
-    //     let cart = JSON.parse(localStorage.getItem("cart"));
-    //     cart.blogs = cart.blogs.map((blog) => {
-    //         if (blog.id === id) {
-    //             blog.days = days;
-    //             blog.subPrice = calcSubPrice(blog);
-    //         }
-    //         return blog;
-    //     });
-    //     cart.totalPrice = calcTotalPrice(cart.blogs);
-    //     localStorage.setItem("cart", JSON.stringify(cart));
-    //     dispatch({
-    //         type: BLOG_ACTIONS.GET_CART,
-    //         payload: cart,
-    //     });
-    // };
-
-    // const changeBlogPrice = (promPrice, id) => {
-    //     let cart = JSON.parse(localStorage.getItem("cart"));
-    //     cart.blogs = cart.blogs.map((blog) => {
-    //         if (blog.id === id) {
-    //             blog.promPrice = promPrice;
-    //             blog.subPrice = calcSubPrice(blog);
-    //         }
-    //         return blog;
-    //     });
-    //     cart.totalPrice = calcTotalPrice(cart.blogs);
-    //     localStorage.setItem("cart", JSON.stringify(cart));
-    //     dispatch({
-    //         type: BLOG_ACTIONS.GET_CART,
-    //         payload: cart,
-    //     });
-    // };
-
     const deleteCart = () => {
         localStorage.removeItem("cart");
         let noCart = [];
@@ -436,41 +271,6 @@ const BlogContextProvider = ({ children }) => {
         console.log(userWithPayment);
         ref.doc(curUser.id).set(userWithPayment);
         deleteCart();
-        // let cart = JSON.parse(localStorage.getItem("cart"));
-        // const newBlogs = blogs?.map((blog) => {
-        //     return { ...blog, promotionDate: Date.now() };
-        // });
-        // let tempBlogs = newBlogs.concat(state.promotionBlogs);
-        // dispatch({
-        //     type: BLOG_ACTIONS.ADD_PROMOTION_BLOG,
-        //     payload: tempBlogs,
-        // });
-        // blogs.map(async (blog) => {
-        //     const changedBlog = { ...blog, priority: 3 };
-        //     const { data } = await axios.patch(
-        //         `${JSON_API_BLOGS}/${blog.id}`,
-        //         changedBlog
-        //     );
-        //     const res = await axios(`${JSON_API_USERS}/${blog.authorsId}`);
-        //     const array = res.data.usersBlogs.map((usersBlog) => {
-        //         if (blog.id === usersBlog.id) {
-        //             return changedBlog;
-        //         } else {
-        //             return usersBlog;
-        //         }
-        //     });
-        //     const changedUser = { ...res.data, usersBlogs: array };
-        //     const a = await axios.patch(
-        //         `${JSON_API_USERS}/${blog.authorsId}`,
-        //         changedUser
-        //     );
-        // });
-        // const newChangedBlogs = await axios(`${JSON_API_BLOGS}`);
-        // dispatch({
-        //     type: BLOG_ACTIONS.GET_BLOGS_DATA,
-        //     payload: newChangedBlogs,
-        // });
-        // deleteCart();
     };
 
     const renderPromotionBlogs = (promotionBlogs) => {
@@ -487,7 +287,6 @@ const BlogContextProvider = ({ children }) => {
             .doc(blog.id)
             .get()
             .then((snapshot) => {
-                // console.log(snapshot.data());
                 blogData = snapshot.data();
             })
             .catch((err) => {
@@ -505,40 +304,10 @@ const BlogContextProvider = ({ children }) => {
             } else {
                 likes = likes.filter((usersEmail) => usersEmail !== email);
             }
-            // console.log(likes);
             const newBlog = { ...blog, usersLikes: likes };
             ref.doc(blog.id).update(newBlog);
         }
         getBlogDetails(blog.id);
-
-        //////////////////////////////
-        // const todoRef = await fire.database().ref("Blog").child(blogsId);
-        // let blogData = {};
-        // todoRef.on("value", (snapshot) => {
-        //     const todos = snapshot.val();
-        //     for (let id in todos) {
-        //         blogData = { ...blogData, [id]: todos[id] };
-        //     }
-        // });
-        // if (!blogData?.usersLikes) {
-        //     todoRef.update({ ...blog, usersLikes: [email] });
-        // } else {
-        //     const idToFind = blogData?.usersLikes?.filter(
-        //         (usersEmail) => usersEmail === email
-        //     );
-        //     let likes = [...blogData?.usersLikes];
-        //     if (idToFind.length === 0) {
-        //         likes.push(email);
-        //     } else {
-        //         likes = likes.filter((usersEmail) => usersEmail !== email);
-        //     }
-        //     console.log(likes);
-        //     const newBlog = { ...blog, usersLikes: likes };
-        //     todoRef.update(newBlog);
-        // }
-
-        // getBlogsData();
-        // getBlogDetails(blogsId);
     };
 
     const addComment = async (comment, id) => {
@@ -571,31 +340,6 @@ const BlogContextProvider = ({ children }) => {
         }
         ref.doc(id).update(newBlog);
         getBlogDetails(id);
-
-        // const blogRef = await fire.database().ref("Blog").child(id);
-        // let blogData = {};
-        // blogRef.on("value", (snapshot) => {
-        //     const todos = snapshot.val();
-        //     for (let id in todos) {
-        //         blogData = { ...blogData, [id]: todos[id] };
-        //     }
-        // });
-        // let newBlog = {};
-        // if (!blogData?.comments) {
-        //     newBlog = {
-        //         ...blogData,
-        //         comments: [{ comment, author: email, id: Date.now() }],
-        //     };
-        // } else {
-        //     newBlog = {
-        //         ...blogData,
-        //         comments: [
-        //             ...blogData.comments,
-        //             { comment, author: email, id: Date.now() },
-        //         ],
-        //     };
-        // }
-        // blogRef.update(newBlog);
     };
 
     const deleteComment = async (comment, blogDetails, id) => {
@@ -610,10 +354,6 @@ const BlogContextProvider = ({ children }) => {
         const ref = await fire.firestore().collection("blogs");
         await ref.doc(blogDetails.id).update(blogWithoutComment);
         getBlogDetails(blogDetails.id);
-
-        // const blogRef = await fire.database().ref("Blog").child(id);
-        // blogRef.update(blogWithoutComment);
-        // getBlogDetails(blogDetails.id);
     };
 
     const editComment = async (comment, blogDetails, newComment, id) => {
@@ -634,42 +374,23 @@ const BlogContextProvider = ({ children }) => {
         const ref = await fire.firestore().collection("blogs");
         await ref.doc(blogDetails.id).update(blogWithEditedComment);
         getBlogDetails(blogDetails.id);
-
-        // const blogRef = await fire.database().ref("Blog").child(id);
-        // blogRef.update(blogWithEditedComment);
-        // getBlogDetails(id);
     };
 
     const addBlogToFavorites = async (blog) => {
         const ref = fire.firestore().collection("users");
         let newUser = {};
-        // ref.onSnapshot((querySnapshot) => {
-        //     let user = {};
-        //     querySnapshot.forEach((doc) => {
-        //         if (doc.data().email === email) {
-        //             user = doc.data();
-        //         }
-        //     });
-        //     console.log(user);
-
         let user = {};
         const refGet = await ref.get();
         refGet.docs.forEach((doc) => {
             if (doc.exists) {
-                // console.log("Document data:", doc.data());
                 if (doc.data().email === email) {
                     user = doc.data();
                 }
             } else {
-                // doc.data() will be undefined in this case
                 console.log("No such document!");
             }
         });
-        // if (user?.favorites?.length === 0) {
-        //     console.log("if");
-        //     newUser = { ...user, favorites: [blog.id] };
-        //     // ref.doc(user.id).update({ ...user, favorites: [blog.id] });
-        // } else {
+
         const idToFind = user.favorites?.filter(
             (usersBlogId) => usersBlogId === blog.id
         );
@@ -682,18 +403,12 @@ const BlogContextProvider = ({ children }) => {
             );
         }
         newUser = { ...user, favorites: favorites };
-        // const ref2 =  fire.firestore().collection("users");
-        //  ref2.doc(user.id).update(newUser);
 
-        // debugger;
-        // }
-        // });
         ref.doc(newUser.id)
             .set(newUser)
             .catch((err) => {
                 console.log(err);
             });
-        // debugger;
     };
 
     const value = {
@@ -728,14 +443,9 @@ const BlogContextProvider = ({ children }) => {
         setIsPromoted,
         promotionBlogs: state.promotionBlogs,
         addBlogToCart,
-        // addProductToCart,
-
         cart: state.cart,
         getCart,
         changeBlogCount,
-        // changeProductCount,
-        // changeBlogPrice,
-
         deleteCart,
         payForBlogs,
         payingBlogs: state.payingBlogs,

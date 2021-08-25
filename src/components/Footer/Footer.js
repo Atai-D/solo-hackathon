@@ -12,16 +12,16 @@ const Footer = () => {
             <div className="container">
                 <div className="row">
                     <div className="col">
-                        <h4>ABOUT US</h4>
+                        <h4>ABOUT PROJECT</h4>
                         <p className="list-unstyled">
-                            This is store which sells different <br /> awesome
-                            headphones <br />
+                            This is store where you can buy <br /> different
+                            awesome headphones <br />
                             The name 'HACKASHOP' cames from <br />
                             two words: 'hackathon' and 'shop'
                         </p>
                     </div>
                     <div className="col">
-                        <h4>CONTACT US</h4>
+                        <h4>CONTACT ME</h4>
                         <ul className="list-unstyled">
                             <li>
                                 <a
